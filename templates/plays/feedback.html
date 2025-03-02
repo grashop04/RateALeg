@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title_block %}Feedback - Rate A Leg{% endblock %}
+
+{% block body_block %}
+<div class="container mt-4">
+    <h1>Feedback</h1>
+    <form action="{% url 'feedback' %}" method="post">
+        {% csrf_token %}
+        <!-- form fields go here -->
+        <button type="submit" class="btn btn-primary">Submit Feedback</button>
+    </form>
+</div>
+{% endblock %}
