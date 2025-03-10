@@ -18,3 +18,6 @@ def login(request):
 
 def signup(request):
     return render(request, 'plays/signup.html')
+
+def profile(request):
+    return
