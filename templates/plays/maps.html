@@ -3,8 +3,26 @@
 {% block title_block %}Maps - Rate A Leg{% endblock %}
 
 {% block body_block %}
-<div class="container mt-4">
-    <h1>Map implemented here</h1>
-    <p>The Map will go here</p>
+
+<div class="theatre-list">
+  <h3>Popular Theatres in Glasgow</h3>
+  <li>
+    <ul><a href="{{ kingstheatre }}"><p>King's Theatre</p></a></ul>
+    <ul><a href="{{ theatreroyal }}"><p>Theatre Royal</p></a></ul>
+    <ul><a href="{{ paviliontheatre }}"><p>Pavilion Theatre</p></a></ul>
+  </li>
 </div>
+
+<!-- <div class="theatre-list">
+  <iframe 
+  width="500"
+  height="400"
+  frameborder="0" 
+  referrerpolicy="no-referrer-when-downgrade"
+  src=""
+  allowfullscreen>
+</iframe> -->
+
+</div>
+
 {% endblock %}

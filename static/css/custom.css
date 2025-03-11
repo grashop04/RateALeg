@@ -2,3 +2,27 @@
     width: 50px;
     height: auto;
 }
+
+.theatre-list{
+    float: left;
+    padding: 20px;
+    margin: 20px;
+    /*background-color: cornsilk; */
+    text-align: center;
+    font-size: 25px;
+    
+}
+
+.theatre-list h3, ul{
+    padding: 20px;
+}
+
+ul{
+    list-style-type: style type none;
+
+}
+
+li{
+    list-style-type: none;
+    
+}
