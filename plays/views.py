@@ -16,6 +16,7 @@ def maps(request):
     context_dict['theatreroyal'] = 'http://theatreroyalglasgow.net/'
     context_dict['paviliontheatre'] = 'https://trafalgartickets.com/pavilion-theatre-glasgow/en-GB'
 
+    
     return render(request, 'plays/maps.html', context_dict)
 
 def login(request):
