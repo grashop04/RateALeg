@@ -1,14 +1,18 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title_block %}Feedback - Rate A Leg{% endblock %}
 
 {% block body_block %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/feedback.css' %}">
+
 <div class="container mt-4">
-    <h1>Feedback</h1>
+    <h1>Have a Suggestion? Contact Us</h1>
     <form action="{% url 'feedback' %}" method="post">
         {% csrf_token %}
         <!-- form fields go here -->
-        <button type="submit" class="btn btn-primary">Submit Feedback</button>
+        <textarea id="feedback-text" name="feedback" class="form-control feedback-box" rows="5" placeholder="Type here..."></textarea>
+        <button type="submit" class="btn">Submit</button>
     </form>
 </div>
 {% endblock %}

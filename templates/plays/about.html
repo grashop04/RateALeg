@@ -1,10 +1,25 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title_block %}About - Rate A Leg{% endblock %}
 
 {% block body_block %}
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+
 <div class="container mt-4">
     <h1>About Rate A Leg</h1>
-    <p>This page provides information about our project, the team, and our mission.</p>
+    <p>Welcome to Rate a Leg! We are a team of five developers with a passion for shows and theatre. We designed this website for like-minded people to easily navigate their 
+        show/play needs! We love the theatre world and want to share it with anyone new to the scene (or old!).</p>
+    <h3>What We Provide</h3>
+    <p>This website allows you to search and sort for your local and favourite shows and even review and rate them if you are a registered user! Whether you're new to the 
+        theatre scene or a seasoned veteran, we have something for everyone! You can also see all your local Glasgow theatres to plan a day of fun and check out where shows 
+        that you want to watch are being shown.
+    </p>
+    <h3>Our Mission</h3>
+    <p>We want to join communities together, making everyone's opinion known and experiences heard. We want your help to maintain and build upon our website from your feedback.
+         If you have any feedback, feel free to contact us <a href="{% url 'feedback' %}">here</a>. 
+    </p>
+    <img src="{% static 'images/kings-theatre.png' %}" alt="Kings Theatre" width=600 height=400 class="kings-img">
 </div>
+
 {% endblock %}
