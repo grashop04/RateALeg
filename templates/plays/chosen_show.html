@@ -1,16 +1,26 @@
 {% extends 'base.html' %}
 {% load static %}
 
+<head>
+<link rel="stylesheet" href="{% static 'css/custom.css' %}">
+</head>
 
 {% block title_block %}Shows - Rate A Leg{% endblock %}
 
 {% block body_block %}
 
-<div class ="image-grid">
+<div class ="play-details">
     <h1>{{ play.title }}</h1>
     <img src="{% static 'images/'|add:play.slug|add:'.jpg' %}" alt="{{ play.title }}" style="max-width: 25%; height: auto;">
-    <p><strong>Playwright</strong> {{play.WriterFirstName}} {{play.WriterSecondName}}</p>
+    <p><strong>Playwright: </strong> {{play.WriterFirstName}} {{play.WriterSecondName}}</p>
     <p>{{ play.description }}</p>
 </div>
+
+
+
+
+
+
+
 
 {% endblock %}

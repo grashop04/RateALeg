@@ -16,14 +16,14 @@
 
 <div>
     <p>Here are the shows that are currently playing:</p>
-    <ul>
         {% for play in plays %}
         <div>
           <h3>{{ play.title }}</h3>
           <a href="{% url 'plays:choosen_show' play_slug=play.slug %}">
+          <div class = "image">
           <img src="{% static 'images/'|add:play.slug|add:'.jpg' %}" alt="{{ play.title }}" />
+          </div>
         </div>
       {% endfor %}
-    </ul>
 </div>
 {% endblock %}
