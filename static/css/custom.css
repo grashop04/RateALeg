@@ -3,34 +3,6 @@
     height: auto;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-.theatre-list{
-    float: left;
-    padding: 20px;
-    margin: 20px;
-    /*background-color: cornsilk; */
-    text-align: center;
-    font-size: 25px;
-    
-}
-
-.theatre-list h3, ul{
-    padding: 20px;
-}
-
-ul{
-    list-style-type: style type none;
-
-}
-
-li{
-    list-style-type: none;
-    
-}
-=======
-=======
->>>>>>> 0a43107 (added login/maps css)
 body {
     background-color: #fff2ea !important; 
 }
@@ -49,11 +21,3 @@ body {
 }
 
 
-<<<<<<< HEAD
->>>>>>> 16cff9c (finished about, frontend feedback and css)
-=======
-
-
-
-
->>>>>>> 0a43107 (added login/maps css)
