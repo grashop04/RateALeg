@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title_block %}Maps - Rate A Leg{% endblock %}
 
 {% block body_block %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/maps.css' %}">
 
 <div class="theatre-list">
   <h3>Popular Theatres in Glasgow</h3>
@@ -13,6 +15,13 @@
   </li>
 </div>
 
+<!-- This is currently just a placeholder for the API, this is a basic embed map while i figure out the problems -->
+<div class="theatre-list">
+<iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d17909.491853689247!2d-4.281636915774234!3d55.86810577080302!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1stheatres%20glasgow!5e0!3m2!1sen!2suk!4v1741947532770!5m2!1sen!2suk" 
+width="600" height="450" style="border:0;" allowfullscreen=""
+ loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+ <!-- This is the API code that i need to fix -->
 <!-- <div class="theatre-list">
   <iframe 
   width="500"
@@ -22,7 +31,7 @@
   src=""
   allowfullscreen>
 </iframe> -->
-
+</div>
 </div>
 
 {% endblock %}

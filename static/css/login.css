@@ -1,8 +1,14 @@
-
+.centre-login{
+    display: flex;
+    justify-content: center;
+    background-color: white;
+    align-items: center;
+}
 
 .login{
     padding: 10px;
     display: flex;
+    align-items: center;
 }
 
 .login label{
@@ -24,7 +30,7 @@
     border: none;
     color: white;
     cursor: pointer;
-    background-color: #4CAF50;
+    background-color:#2d8078;
     width: 100%;
     font-size: 16px;
 
