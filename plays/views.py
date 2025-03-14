@@ -24,9 +24,16 @@ def shows(request):
         plays = plays.order_by('-releaseDate')
     else:
         plays = plays.order_by('title')
-    
+
+    try:
+        featured_play = Play.objects.get(title="Annie, The Musical")
+        if not featured_play.slug:
+            featured_play.slug = "annie-the-musical"
+            featured_play.save()  # Save to database if missing slug
+    except Play.DoesNotExist:
+        featured_play = None
     categories = Category.objects.all()
-    return render(request, 'plays/shows.html', {'plays': plays, 'categories': categories, 'sort_by': sort_by})
+    return render(request, 'plays/shows.html', {'plays': plays, 'categories': categories, 'sort_by': sort_by, 'featured_play': featured_play,})
 
 def show_detail(request, show_id):
     play = get_object_or_404(Play, id=show_id)

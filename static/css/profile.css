@@ -1,0 +1,41 @@
+.profile-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.profile-left img {
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+}
+
+.profile-right {
+    flex-grow: 1;
+}
+
+#bio {
+    width: 100%;
+    height: 80px;
+    resize: none;
+    background-color: white;
+    padding: 10px;
+}
+
+#logout-btn {
+    display: block;
+    width: 150px;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #16675F;
+    color: white;
+}
+
+h3 {
+    background-color: white;
+    padding: 7px;
+    margin-top: 20px;
+    border: 0.3px solid black
+}

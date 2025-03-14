@@ -1,10 +1,29 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title_block %}Maps - Rate A Leg{% endblock %}
+{% block title_block %}Profile - Rate A Leg{% endblock %}
 
 {% block body_block %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
 <div class="container mt-4">
-    <h1>Profile</h1>
-    <p>The Profile will go here</p>
+    <div class="profile-container">
+        <div class="profile-left">
+            <img src="{% static 'images/default-profile-pic.jpg' %}" alt="Profile Picture" id="default-profile-pic">
+        </div>
+        <div class="profile-right">
+            <h2>Username</h2>
+            <textarea id="bio" readonly>Hello! I am username and I absolutely love shows! I am always eager to visit all the theatres and watch my favourite ones, 
+                whether they're a musical, or just an entertaining good time!</textarea>
+            <button id="edit-btn">EDIT</button>
+            <div id="edit-section" style="display: none;">
+                <input type="file" id="profile_picture" name="profile_picture" accept="image/png, image/jpeg">
+                <button id="save-btn">SAVE</button>
+                <button id="cancel-btn">CANCEL</button>
+            </div>
+        </div>
+    </div>
+    <h3>Recently Reviewed Shows</h3>
+    <button id="logout-btn" disabled>
+        Logout
+      </button>
 </div>
-{% endblock %}
