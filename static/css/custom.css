@@ -3,6 +3,25 @@
     height: auto;
 }
 
+body {
+    background-color: #fff2ea !important; 
+}
+
+.navbar {
+    background-color: #2d8078 !important;
+}
+
+.navbar .nav-link, 
+.navbar .navbar-brand {
+    color: white !important;
+}
+
+.navbar .nav-link:hover {
+    color: #1d554f !important;
+}
+
+
+
 .image{
     width: 100%;
     height: auto;
