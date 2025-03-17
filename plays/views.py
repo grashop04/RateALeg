@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .models import Play, Review, CustomUser, Category
 from .forms import ReviewForm
+from django.urls import reverse
+from .forms import SignUpForm
 
 def shows(request):
     category_name = request.GET.get('category')
@@ -58,47 +60,67 @@ def feedback(request):
     return render(request, 'plays/feedback.html')
 
 def maps(request):
-    return render(request, 'plays/maps.html')
+    context_dict = {}
+    context_dict['kingstheatre'] = 'http://kingstheatreglasgow.net/'
+    context_dict['theatreroyal'] = 'http://theatreroyalglasgow.net/'
+    context_dict['paviliontheatre'] = 'https://trafalgartickets.com/pavilion-theatre-glasgow/en-GB'
 
-def login_view(request):
+    
+    return render(request, 'plays/maps.html', context_dict)
+
+def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('plays:show_list')
+
+        user = authenticate(username=username, password=password)
+        
+        if user:
+            if user.is_active:
+                login(request, user)
+                return redirect(reverse('shows'))
+            else:
+                return HttpResponse("Your account is disabled.")
         else:
-            messages.error(request, "Invalid username or password")
-    return render(request, 'plays/login.html')
+            print(f"Invalid login details: {username}, {password}")
+            return HttpResponse("Invalid login details supplied.")
+    else:
+        return render(request, 'plays/login.html')
 
 def logout_view(request):
     logout(request)
     return redirect('plays:login')
 
-def signup(request):
+def user_signup(request):
+    registered = False
+
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        first_name = request.POST.get('first_name')
-        second_name = request.POST.get('second_name')
-        bio = request.POST.get('bio')
-        
-        if CustomUser.objects.filter(username=username).exists():
-            messages.error(request, "Username already exists")
-        else:
-            user = CustomUser.objects.create_user(
-                username=username, password=password,
-                firstName=first_name, secondName=second_name, bio=bio
-            )
+        form = SignUpForm(request.POST)
+
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+
+            registered = True
             login(request, user)
-            return redirect('plays:show_list')
-    return render(request, 'plays/signup.html')
+            return redirect('shows')
+        else:
+            print(form.errors)
+    else:
+        form = SignUpForm()
+
+    return render(request, 'plays/signup.html',
+                  context={'form': form, 'registered': registered})
 
 @login_required
 def profile(request):
-    user_profile = get_object_or_404(CustomUser, id=request.user.id)
-    return render(request, 'plays/profile.html', {'user_profile': user_profile})
+    return render(request, 'plays/profile.html', {'user': request.user})
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return redirect(reverse('shows'))
 
 def chosen_show(request, play_slug):
     play = get_object_or_404(Play, slug=play_slug)

@@ -123,3 +123,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'plays.CustomUser'
+LOGIN_URL = 'plays:login'
