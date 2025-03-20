@@ -14,10 +14,9 @@
     <p>The Shows will go here</p>
 </div>
 
-<div>
-    <p>Here are the shows that are currently playing:</p>
+<div class ="grid">
         {% for play in plays %}
-        <div>
+        <div class = "play">
           <h3>{{ play.title }}</h3>
           <a href="{% url 'plays:choosen_show' play_slug=play.slug %}">
           <div class = "image">
@@ -26,4 +25,7 @@
         </div>
       {% endfor %}
 </div>
+
+
+
 {% endblock %}

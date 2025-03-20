@@ -25,11 +25,11 @@ def populate():
         user, created = User.objects.get_or_create(username=user_info['username'], defaults=user_info)
 
     plays_data = [
-        {"title": "The Lion King", "WriterFirstName": "Roger", "WriterSecondName": "Allers", "genre": "Musical", "releaseDate": "2025-06-15", "description": "A young lion prince is cast out of his pride by his cruel uncle, who claims he killed his father.", "playImage": "images/lion_king.jpg"},
-        {"title": "Annie, The Musical", "WriterFirstName": "Thomas", "WriterSecondName": "Meehan", "genre": "Musical", "releaseDate": "2025-04-21", "description": "A young orphan finds a new home with a billionaire.", "playImage": "images/annie.jpg"},
-        {"title": "The Phantom of the Opera", "WriterFirstName": "Andrew", "WriterSecondName": "Lloyd Webber", "genre": "Musical", "releaseDate": "1986-01-26", "description": "A disfigured musical genius, hidden away in the Paris Opera House, terrorizes the opera company", "playImage": "images/phantom.jpg"},
-        {"title": "The Sound of Music", "WriterFirstName": "Richard", "WriterSecondName": "Rodgers", "genre": "Musical", "releaseDate": "2025-03-02", "description": "A nanny takes care of children and takes them on a magical adventure.", "playImage": "images/sound_of_music.jpg"},
-        {"title": "The Book of Mormon", "WriterFirstName": "Trey", "WriterSecondName": "Parker", "genre": "Musical", "releaseDate": "2025-03-24", "description": "Two Mormon missionaries are sent to Uganda to try and convert the locals to Mormonism.", "playImage": "images/book_of_mormon.jpg"},  
+        {"title": "The Lion King", "WriterFirstName": "Roger", "WriterSecondName": "Allers", "genre": "Musical", "releaseDate": "2025-06-15", "description": "A young lion prince is cast out of his pride by his cruel uncle, who claims he killed his father.", "playImage": "images/lion_king.jpg", "Location": "Kings Thetre"},
+        {"title": "Annie, The Musical", "WriterFirstName": "Thomas", "WriterSecondName": "Meehan", "genre": "Musical", "releaseDate": "2025-04-21", "description": "A young orphan finds a new home with a billionaire.", "playImage": "images/annie.jpg", "Location": "Tron Theatre"},
+        {"title": "The Phantom of the Opera", "WriterFirstName": "Andrew", "WriterSecondName": "Lloyd Webber", "genre": "Musical", "releaseDate": "1986-01-26", "description": "A disfigured musical genius, hidden away in the Paris Opera House, terrorizes the opera company", "playImage": "images/phantom.jpg", "Location": "Kings Theatre"},
+        {"title": "The Sound of Music", "WriterFirstName": "Richard", "WriterSecondName": "Rodgers", "genre": "Musical", "releaseDate": "2025-03-02", "description": "A nanny takes care of children and takes them on a magical adventure.", "playImage": "images/sound_of_music.jpg", "Location": "Tron Theatre"},
+        {"title": "The Book of Mormon", "WriterFirstName": "Trey", "WriterSecondName": "Parker", "genre": "Musical", "releaseDate": "2025-03-24", "description": "Two Mormon missionaries are sent to Uganda to try and convert the locals to Mormonism.", "playImage": "images/book_of_mormon.jpg", "Location": "Theatre Royal Glasgow"},  
     ]
 
     for play_info in plays_data:

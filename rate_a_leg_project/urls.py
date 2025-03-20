@@ -30,4 +30,5 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('profile/', views.profile, name='profile'),
     path('feedback/', views.feedback, name='feedback'),
+    path('submit-rating/', views.submit_rating, name='submit_rating'),
 ]
