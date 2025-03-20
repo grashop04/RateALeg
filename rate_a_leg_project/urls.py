@@ -26,8 +26,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('about/', views.about, name='about'),
     path('maps/', views.maps, name='maps'),
-    path('login/', views.login_view, name='login'),
-    path('signup/', views.signup, name='signup'),
+    path('login/', views.user_login, name='login'),
+    path('signup/', views.user_signup, name='signup'),
     path('profile/', views.profile, name='profile'),
     path('feedback/', views.feedback, name='feedback'),
+    path('<slug:play_slug>/chosen_play/', views.chosen_show, name='chosen_show'),
+    path('logout/', views.user_logout, name="logout"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
