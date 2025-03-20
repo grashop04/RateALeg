@@ -1,7 +1,6 @@
 .event-details{
-    display: flex;
+    display: inline;
     flex-direction: column; 
-    align-items: center; 
     justify-content: center;
     font-family: Arial, sans-serif;
     color: #333;

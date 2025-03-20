@@ -8,22 +8,23 @@
 <div class="container mt-4">
     <div class="profile-container">
         <div class="profile-left">
-            <img src="{% static 'images/default-profile-pic.jpg' %}" alt="Profile Picture" id="default-profile-pic">
+            <img src="{% if user.profile_pic %}{{ user.profile_pic.url }}{% else %}{% static 'images/default-profile-pic.jpg' %}{% endif %}" 
+            alt="Profile Picture" id="profile-pic">
+            <input type="file" id="profile-pic-upload" accept="image/*" style="display: none;">
         </div>
         <div class="profile-right">
-            <h2>Username</h2>
-            <textarea id="bio" readonly>Hello! I am username and I absolutely love shows! I am always eager to visit all the theatres and watch my favourite ones, 
-                whether they're a musical, or just an entertaining good time!</textarea>
-            <button id="edit-btn">EDIT</button>
-            <div id="edit-section" style="display: none;">
-                <input type="file" id="profile_picture" name="profile_picture" accept="image/png, image/jpeg">
-                <button id="save-btn">SAVE</button>
-                <button id="cancel-btn">CANCEL</button>
-            </div>
+            <h2>{{ user.username }}</h2>
+            <p id="bio">{{ user.bio }}</p>
+            <div id="container">
+                <p id="edit"><b> Click "Edit" button to edit content. </b></p>
+                <button type="submit" id="edit-button">EDIT</button>
+                <button id="done-button" style="display: none;">DONE</button>
+            </div>  
+            <script src="{% static 'javascript/edit.js' %}"></script>
         </div>
     </div>
     <h3>Recently Reviewed Shows</h3>
-    <button id="logout-btn" disabled>
-        Logout
-      </button>
+    <a href="{% url 'plays:logout' %}" id="logout-btn">Logout</a>
 </div>
+
+{% endblock %}

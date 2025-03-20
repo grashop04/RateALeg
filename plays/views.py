@@ -29,7 +29,7 @@ def shows(request):
         featured_play = Play.objects.get(title="Annie, The Musical")
         if not featured_play.slug:
             featured_play.slug = "annie-the-musical"
-            featured_play.save()  # Save to database if missing slug
+            featured_play.save()
     except Play.DoesNotExist:
         featured_play = None
     categories = Category.objects.all()

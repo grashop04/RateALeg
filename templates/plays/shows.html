@@ -29,6 +29,12 @@
   </div>
 </div>
 
+<div class="welcome">
+  {% if user.is_authenticated %}
+    <h2>Welcome, {{ user.name }}</h2>
+  {% endif %}
+</div>
+
 <div class="chosen-show-wrapper">
   <div class="featured-show">
       <h2>Our Choice</h2>
@@ -41,28 +47,28 @@
                    width="150" height="200"/>
           </a>
         {% else %}
-          <p>Slug is missing for featured play.</p>
+          <p>Featured show unavailable.</p>
         {% endif %}
-     {% else %}
+      {% else %}
       <p>No featured show available.</p>
       {% endif %}
   </div>
 </div>
 
-
 <div>
-  <p>Here are the shows that are currently playing:</p>
+  <h3 class="shows-header">Top rated shows of this month</h3>
+  <h3 class="shows-header">Now Showing</h3>
   <div class="plays-container">
-      {% for play in plays %}
-      <div class="plays-title">
-          <a href="{% url 'plays:chosen_show' play_slug=play.slug %}">
-              <h3 class="play-title">{{ play.title }}</h3>
-              <div class="image">
-                  <img src="{% static 'images/'|add:play.slug|add:'.jpg' %}" alt="{{ play.title }}" width=150 height=200/>
-              </div>
-          </a>
-      </div>
-      {% endfor %}
+    {% for play in plays %}
+    <div class="plays-title">
+        <a href="{% url 'plays:chosen_show' play_slug=play.slug %}">
+            <h3 class="play-title">{{ play.title }}</h3>
+            <div class="image">
+                <img src="{% static 'images/'|add:play.slug|add:'.jpg' %}" alt="{{ play.title }}" width=150 height=200/>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
   </div>
 </div>
 {% endblock %}
