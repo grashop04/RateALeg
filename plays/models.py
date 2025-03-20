@@ -9,12 +9,11 @@ from django.contrib.auth.models import AbstractUser
 class CustomUser(AbstractUser):
     firstName = models.CharField(max_length=25)
     secondName = models.CharField(max_length=25)
-    bio = models.CharField(max_length=250)
-    profilePicture = models.ImageField(upload_to='images/')
+    bio = models.CharField(max_length=250, blank=True)
+    profilePicture = models.ImageField(upload_to='profile_images/', default='default-profile-pic.jpg')
 
     def __str__(self):
         return self.username
-
 
 class Category(models.Model):
     NAME_MAX_LENGTH = 128

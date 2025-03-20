@@ -17,3 +17,7 @@ class ReviewForm(forms.ModelForm):
         model = Review
         fields = ['SoundTrackRating', 'CastRating', 'SetRating', 'AverageRating', 'comment']
 
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['profilePicture', 'bio']

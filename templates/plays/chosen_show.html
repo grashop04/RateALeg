@@ -10,17 +10,14 @@
 {% block body_block %}
 
 <div class ="play-details">
-    <h1>{{ play.title }}</h1>
     <img src="{% static 'images/'|add:play.slug|add:'.jpg' %}" alt="{{ play.title }}" style="max-width: 25%; height: auto;">
-    <p><strong>Playwright: </strong> {{play.WriterFirstName}} {{play.WriterSecondName}}</p>
+    <h1>{{ play.title }}</h1>
     <p>{{ play.description }}</p>
+    <div class="info-box">
+        <p><strong>Date Showing:</strong></p>
+        <p><strong>Location:</strong></strong></p>
+        <p><strong>Playwright: </strong> {{play.WriterFirstName}} {{play.WriterSecondName}}</p>
+    </div>
 </div>
-
-
-
-
-
-
-
 
 {% endblock %}

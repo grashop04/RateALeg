@@ -4,8 +4,9 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.templatetags.static import static
 from .models import Play, Review, CustomUser, Category
-from .forms import ReviewForm
+from .forms import ReviewForm, ProfileForm
 from django.urls import reverse
 from .forms import SignUpForm
 
@@ -26,9 +27,16 @@ def shows(request):
         plays = plays.order_by('-releaseDate')
     else:
         plays = plays.order_by('title')
-    
+
+    try:
+        featured_play = Play.objects.get(title="Annie, The Musical")
+        if not featured_play.slug:
+            featured_play.slug = "annie-the-musical"
+            featured_play.save()
+    except Play.DoesNotExist:
+        featured_play = None
     categories = Category.objects.all()
-    return render(request, 'plays/shows.html', {'plays': plays, 'categories': categories, 'sort_by': sort_by})
+    return render(request, 'plays/shows.html', {'plays': plays, 'categories': categories, 'sort_by': sort_by, 'featured_play': featured_play,})
 
 def show_detail(request, show_id):
     play = get_object_or_404(Play, id=show_id)
@@ -115,7 +123,26 @@ def user_signup(request):
 
 @login_required
 def profile(request):
-    return render(request, 'plays/profile.html', {'user': request.user})
+    user = request.user
+
+    if request.method == "POST":
+        if request.content_type == "application/json":
+            data = json.loads(request.body)
+            user.bio = data.get("bio", user.bio)
+            user.save()
+            return JsonResponse({"success": True})
+
+        elif request.FILES.get("profile_pic"): 
+            user.profilePicture = request.FILES["profile_pic"]
+            user.save()
+            return JsonResponse({"success": True})
+
+        return JsonResponse({"success": False})
+    
+    profile_picture_url = user.profilePicture.url if user.profilePicture else static("images/default-profile-pic.jpg")
+    return render(request, "plays/profile.html", {"user": user, "profile_picture_url": profile_picture_url})
+
+
 
 @login_required
 def user_logout(request):
@@ -125,3 +152,19 @@ def user_logout(request):
 def chosen_show(request, play_slug):
     play = get_object_or_404(Play, slug=play_slug)
     return render(request, 'plays/chosen_show.html', {'play': play})
+
+@login_required
+def update_profile(request):
+    user = request.user 
+
+    if request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully!")
+            return redirect("plays:profile")
+
+    else:
+        form = ProfileForm(instance=user)
+
+    return render(request, "plays/profile.html", {"form": form, "user": user})
