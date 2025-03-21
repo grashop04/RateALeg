@@ -63,14 +63,14 @@ def make_a_review_discuss_event(request, play_slug):
                 return JsonResponse({"message": "Review submitted successfully!"})
 
             messages.success(request, "Review submitted successfully!")
-            return redirect('plays:choosen_show', play_slug=play.slug)
+            return redirect('plays:chosen_show', play_slug=play.slug)
         else:
             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                 return JsonResponse({"error": "Invalid data"}, status=400)
 
             messages.error(request, "Error submitting your review. Please check the form.")
     
-    return redirect('plays:choosen_play', play_slug=play.slug)
+    return redirect('plays:chosen_play', play_slug=play.slug)
 
 
 def about(request):
@@ -185,7 +185,7 @@ def chosen_show(request, play_slug):
             review.save()
 
             messages.success(request, "Review submitted successfully!")
-            return redirect('plays:choosen_plays', play_slug=play.slug)  
+            return redirect('plays:chosen_plays', play_slug=play.slug)  
         
         messages.error(request, "Error submitting review.")
 
@@ -258,3 +258,21 @@ def submit_rating(request):
          return JsonResponse({'message': 'Rating submitted successfully!', 'score': rating_value})
  
      return JsonResponse({'error': 'Invalid request'}, status=400)
+
+
+@login_required
+def submit_comment(request):
+    comment_text = request.POST.get('comment')
+    play_id = request.POST.get('play_id')
+
+    play = get_object_or_404(Play, pk=play_id)
+    review = Review.objects.filter(playId=play, username=request.user).first()
+
+    if review:
+        review.comment = comment_text
+        review.save()
+        messages.success(request, "Comment submitted successfully.")
+    else:
+        messages.error(request, "You must rate the play before leaving a comment.")
+
+    return redirect('plays:chosen_show', play_slug=play.slug)

@@ -11,31 +11,48 @@
     <link rel="stylesheet" href="{% static 'css/chosen_shows.css' %}">
 </head>
 
-<div class ="play-details">
-    <img src="{% static 'images/'|add:play.slug|add:'.jpg' %}" alt="{{ play.title }}" style="max-width: 25%; height: auto;">
-    <h1>{{ play.title }}</h1>
-    <p>{{ play.description }}</p>
-    <div class="info-box">
-        <p><strong>Date Showing:</strong></p>
-        <p><strong>Location:</strong></strong></p>
-        <p><strong>Playwright: </strong> {{play.WriterFirstName}} {{play.WriterSecondName}}</p>
+<div class = "play-container">
+    <div class = "play-image-rating">
+        <img src="{% static 'images/'|add:play.slug|add:'.jpg' %}" alt="{{ play.title }}">
+        <h3>Average Rating</h3>
+        <div class="average-rating">
+            {% for i in "12345" %}
+                {% if i|add:"0" <= avg_rating %}
+                    <span class="fa fa-star checked"></span>  
+                {% elif i|add:"0" < avg_rating|floatformat:0|add:"1" %}
+                    <span class="fa fa-star-half-alt checked"></span> 
+            {% else %}
+                <span class="fa fa-star"></span>  
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class ="play-details">
+        <h1>{{ play.title }}</h1>
+        <p>{{ play.description }}</p>
+        <div class="info-box">
+            <p><strong>Date Showing:</strong></p>
+            <p><strong>Location:</strong></strong></p>
+            <p><strong>Playwright: </strong> {{play.WriterFirstName}} {{play.WriterSecondName}}</p>
+        </div>
     </div>
 </div>
-    
+
 <div class="ratings-contain">
 <h3>Soundtrack Rating</h3>
 <div class="rate-rows">
-    <div class="stars">
-    <form class="rate-form" action="" method="POST" id="soundtrack-form" data-playid="{{ play.playID }}">
-        {% csrf_token %}
-        <span class="fa fa-star fa-3x soundtrack" data-value="1"></span>
-        <span class="fa fa-star fa-3x soundtrack" data-value="2"></span>
-        <span class="fa fa-star fa-3x soundtrack" data-value="3"></span>
-        <span class="fa fa-star fa-3x soundtrack" data-value="4"></span>
-        <span class="fa fa-star fa-3x soundtrack" data-value="5"></span>
-    </form>
+        <div class="stars">
+            <form class="rate-form" action="" method="POST" id="soundtrack-form" data-playid="{{ play.playID }}">
+                {% csrf_token %}
+                <span class="fa fa-star fa-3x soundtrack" data-value="1"></span>
+                <span class="fa fa-star fa-3x soundtrack" data-value="2"></span>
+                <span class="fa fa-star fa-3x soundtrack" data-value="3"></span>
+                <span class="fa fa-star fa-3x soundtrack" data-value="4"></span>
+                <span class="fa fa-star fa-3x soundtrack" data-value="5"></span>
+            </form>
+        </div>
     </div>
-</div>
 
 <h3>Set Rating</h3>
 <div class="rate-rows">
@@ -65,24 +82,38 @@
     </div>
 </div>
 
-
 <div class="submit-ratings">
     <button id="submit-rating-btn" class="btn btn-primary mt-3" disabled>Submit Ratings</button>
 </div>
 </div>
 
-<h3>Average Rating</h3>
-<div class="average-rating">
-    {% for i in "12345" %}
-        {% if i|add:"0" <= avg_rating %}
-            <span class="fa fa-star checked"></span>  
-        {% elif i|add:"0" < avg_rating|floatformat:0|add:"1" %}
-            <span class="fa fa-star-half-alt checked"></span> 
-        {% else %}
-            <span class="fa fa-star"></span>  
-        {% endif %}
+<h3>Leave a Comment</h3>
+
+<div class="comment-section-container">
+    <div class="comment-box">
+        <form method="post" action="{% url 'plays:submit_comment' %}" id="comment-form">
+            {% csrf_token %}
+            <textarea id="comment-input" name="comment" rows="4" placeholder="Write your thoughts..." required></textarea>
+            <input type="hidden" name="play_id" value="{{ play.playID }}">
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Submit Comment</button>
+    </form>
+    
+
+<div class="comment-list">
+    {% for comment in play.review_set.all %}
+        <div class="comment">
+            <strong>{{ comment.username.username }}</strong>:
+            <p>{{ comment.comment }}</p>
+        </div>
+    {% empty %}
+        <p>No comments yet. Be the first!</p>
     {% endfor %}
 </div>
+</div>
+
+
+
 
 <script src="{% static 'javascript/chosenplays.js' %}"></script>
     

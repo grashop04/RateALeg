@@ -34,6 +34,7 @@ urlpatterns = [
     path('<slug:play_slug>/chosen_play/', views.chosen_show, name='chosen_show'),
     path('logout/', views.user_logout, name="logout"),
     path('submit-rating/', views.submit_rating, name='submit-rating'),
+    path('submit-comment/', views.submit_comment, name='submit_comment'),
 ] 
 
 if settings.DEBUG:
