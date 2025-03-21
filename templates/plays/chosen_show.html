@@ -12,10 +12,14 @@
 </head>
 
 <div class ="play-details">
-    <h1>{{ play.title }}</h1>
     <img src="{% static 'images/'|add:play.slug|add:'.jpg' %}" alt="{{ play.title }}" style="max-width: 25%; height: auto;">
-    <p><strong>Playwright: </strong> {{play.WriterFirstName}} {{play.WriterSecondName}}</p>
+    <h1>{{ play.title }}</h1>
     <p>{{ play.description }}</p>
+    <div class="info-box">
+        <p><strong>Date Showing:</strong></p>
+        <p><strong>Location:</strong></strong></p>
+        <p><strong>Playwright: </strong> {{play.WriterFirstName}} {{play.WriterSecondName}}</p>
+    </div>
 </div>
     
 <div class="ratings-contain">
@@ -65,6 +69,19 @@
 <div class="submit-ratings">
     <button id="submit-rating-btn" class="btn btn-primary mt-3" disabled>Submit Ratings</button>
 </div>
+</div>
+
+<h3>Average Rating</h3>
+<div class="average-rating">
+    {% for i in "12345" %}
+        {% if i|add:"0" <= avg_rating %}
+            <span class="fa fa-star checked"></span>  
+        {% elif i|add:"0" < avg_rating|floatformat:0|add:"1" %}
+            <span class="fa fa-star-half-alt checked"></span> 
+        {% else %}
+            <span class="fa fa-star"></span>  
+        {% endif %}
+    {% endfor %}
 </div>
 
 <script src="{% static 'javascript/chosenplays.js' %}"></script>

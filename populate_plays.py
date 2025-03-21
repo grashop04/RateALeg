@@ -16,7 +16,7 @@ def populate():
         Category.objects.get_or_create(name=category)
 
     users = [
-        {'username': 'sophie20', 'firstName': 'Sophie', 'secondName': '', 'bio': 'Psychology student who loves theatre'},
+        {'username': 'sophie20', 'firstName': 'Sophie', 'secondName': '', 'bio': 'Psychology student who loves theatre',},
         {'username': 'dave45', 'firstName': 'Dave', 'secondName': '', 'bio': 'Passionate play critic'},
         {'username': 'rachel29', 'firstName': 'Rachel', 'secondName': '', 'bio': 'Actor starring in Dear Evan Hansen'},
     ]

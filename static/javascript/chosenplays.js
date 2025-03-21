@@ -44,6 +44,9 @@ const checkRatingsCompletion = () => {
 submitBtn.addEventListener('click', () => {
     const playID = document.getElementById('soundtrack-form').getAttribute('data-playid');
 
+    submitBtn.disabled = true;
+    submitBtn.innerText = 'Submitted';
+
     Object.keys(ratings).forEach(category => {
         $.ajax({
             type: 'POST',
@@ -56,9 +59,15 @@ submitBtn.addEventListener('click', () => {
             },
             success: function(response) {
                 console.log(`${category} rating submitted successfully: ${response.score}`);
+                const stars = document.querySelectorAll(`.${category}`);
+                stars.forEach(star => {
+                    star.style.pointerEvents = 'none'; // disables interaction
+                });
             },
             error: function(error) {
                 console.error(`Error submitting ${category} rating`, error);
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Submit Ratings';
             }
         });
     });

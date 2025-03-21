@@ -9,12 +9,11 @@ from django.contrib.auth.models import AbstractUser
 class CustomUser(AbstractUser):
     firstName = models.CharField(max_length=25)
     secondName = models.CharField(max_length=25)
-    bio = models.CharField(max_length=250)
-    profilePicture = models.ImageField(upload_to='images/')
+    bio = models.CharField(max_length=250, blank=True)
+    profilePicture = models.ImageField(upload_to='profile_images/', default='default-profile-pic.jpg')
 
     def __str__(self):
         return self.username
-
 
 class Category(models.Model):
     NAME_MAX_LENGTH = 128
@@ -62,9 +61,18 @@ class Review(models.Model):
     AverageRating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     comment = models.TextField(max_length=1000)
     playPicture = models.ImageField(upload_to='images/')
+    
+    def save(self, *args, **kwargs):
+        total_ratings = sum(filter(None, [self.SoundTrackRating, self.CastRating, self.SetRating]))
+        count = sum(1 for x in [self.SoundTrackRating, self.CastRating, self.SetRating] if x > 0)
+        self.AverageRating = total_ratings / count if count else 0  # Avoid division by zero
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Review by {self.username.username}"
+    
+    class Meta:
+        unique_together = ('playId', 'username')
 
 
 class Feedback(models.Model):

@@ -23,3 +23,7 @@ class ReviewForm(forms.ModelForm):
             'comment':forms.Textarea(attrs={'rows':4}),
         }
 
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['profilePicture', 'bio']

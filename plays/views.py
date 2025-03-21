@@ -5,11 +5,13 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.templatetags.static import static
 from .models import Play, Review, CustomUser, Category
-from .forms import ReviewForm
+from .forms import ReviewForm, ProfileForm
 from django.urls import reverse
 from .forms import SignUpForm
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Avg
 
 
 def shows(request):
@@ -29,9 +31,16 @@ def shows(request):
         plays = plays.order_by('-releaseDate')
     else:
         plays = plays.order_by('title')
-    
+
+    try:
+        featured_play = Play.objects.get(title="Annie, The Musical")
+        if not featured_play.slug:
+            featured_play.slug = "annie-the-musical"
+            featured_play.save()
+    except Play.DoesNotExist:
+        featured_play = None
     categories = Category.objects.all()
-    return render(request, 'plays/shows.html', {'plays': plays, 'categories': categories, 'sort_by': sort_by})
+    return render(request, 'plays/shows.html', {'plays': plays, 'categories': categories, 'sort_by': sort_by, 'featured_play': featured_play,})
 
 def show_detail(request, show_id):
     play = get_object_or_404(Play, id=show_id)
@@ -129,7 +138,26 @@ def user_signup(request):
 
 @login_required
 def profile(request):
-    return render(request, 'plays/profile.html', {'user': request.user})
+    user = request.user
+
+    if request.method == "POST":
+        if request.content_type == "application/json":
+            data = json.loads(request.body)
+            user.bio = data.get("bio", user.bio)
+            user.save()
+            return JsonResponse({"success": True})
+
+        elif request.FILES.get("profile_pic"): 
+            user.profilePicture = request.FILES["profile_pic"]
+            user.save()
+            return JsonResponse({"success": True})
+
+        return JsonResponse({"success": False})
+    
+    profile_picture_url = user.profilePicture.url if user.profilePicture else static("images/default-profile-pic.jpg")
+    return render(request, "plays/profile.html", {"user": user, "profile_picture_url": profile_picture_url})
+
+
 
 @login_required
 def user_logout(request):
@@ -140,7 +168,13 @@ def chosen_show(request, play_slug):
     play = get_object_or_404(Play, slug=play_slug)
     user_review=None
     ##user_review = Review.objects.filter(playId=play, username=request.user).first()
+    user_has_reviewed = False
     
+    if request.user.is_authenticated:
+        user_review = Review.objects.filter(playId=play, username=request.user).first()
+        user_has_reviewed = user_review is not None
+
+
     if request.method == 'POST':  
         review_form = ReviewForm(request.POST)
 
@@ -158,53 +192,69 @@ def chosen_show(request, play_slug):
     else:
         review_form = ReviewForm()
 
+
+    avg_rating = Review.objects.filter(playId=play).aggregate(Avg('AverageRating'))['AverageRating__avg']
+    
+    if avg_rating is None:
+        avg_rating = 0  
+    else:
+        avg_rating = round(avg_rating, 1)  
+
     context = {
         'play': play,
         'user_review': user_review,
-        'review_form': review_form
+        'review_form': review_form,
+        'avg_rating':avg_rating,
+        'user_has_reviewed': user_has_reviewed,
     }
     return render(request, 'plays/chosen_show.html', context)
 
 
 def submit_rating(request):
-    if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        play_id = request.POST.get('el_id')  
-        rating_value = request.POST.get('val') 
-        category = request.POST.get('category')  
+     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
+         play_id = request.POST.get('el_id')  
+         rating_value = request.POST.get('val') 
+         category = request.POST.get('category')  
 
-        if not play_id or not rating_value or not category:
+         if not play_id or not rating_value or not category:
             return JsonResponse({'error': 'Missing data'}, status=400)
-        try:
+
+         try:
             rating_value = int(rating_value)
-        except ValueError:
+         except (TypeError, ValueError):
             return JsonResponse({'error': 'Invalid rating value'}, status=400)
 
-        if category not in ['soundtrack', 'set', 'cast']:
+         if category not in ['soundtrack', 'set', 'cast']:
             return JsonResponse({'error': 'Invalid rating category'}, status=400)
 
+         play = get_object_or_404(Play, playID=play_id)
 
-        # getting the play
-        play = get_object_or_404(Play, playID=play_id)
-
-        review, created = Review.objects.get_or_create(
-            playId=play, username=request.user,
-            defaults={'SoundTrackRating': 1, 'CastRating': 1, 'SetRating': 1, 'AverageRating': 1}
-        )
-
-        if category == 'soundtrack':
+         review, created = Review.objects.get_or_create(
+         playId=play,
+         username=request.user,
+        
+         defaults={
+         'SoundTrackRating': 0,
+         'SetRating': 0,
+         'CastRating': 0,
+         'AverageRating': 0
+         }
+        )   
+ 
+         if category == 'soundtrack':
             review.SoundTrackRating = rating_value
-        elif category == 'set':
+         elif category == 'set':
             review.SetRating = rating_value
-        elif category == 'cast':
+         elif category == 'cast':
             review.CastRating = rating_value
-
-        #this is calculating the averaeg rating 
-        total_ratings = sum(filter(None, [review.SoundTrackRating, review.CastRating, review.SetRating]))
-        count = sum(1 for x in [review.SoundTrackRating, review.CastRating, review.SetRating] if x > 0)
-        review.AverageRating = total_ratings // count if count else 0
-
-        review.save()
-
-        return JsonResponse({'message': 'Rating submitted successfully!', 'score': rating_value})
-
-    return JsonResponse({'error': 'Invalid request'}, status=400)
+         #this is calculating the averaeg rating 
+         
+         total_ratings = sum(filter(None, [review.SoundTrackRating, review.CastRating, review.SetRating]))
+         count = sum(1 for x in [review.SoundTrackRating, review.CastRating, review.SetRating] if x > 0)
+         review.AverageRating = total_ratings // count if count else 0
+ 
+         review.save()
+ 
+         return JsonResponse({'message': 'Rating submitted successfully!', 'score': rating_value})
+ 
+     return JsonResponse({'error': 'Invalid request'}, status=400)

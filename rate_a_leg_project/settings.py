@@ -41,8 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'plays',
-    'django.contrib.sites',
-
     # 'auth_app',
 
     # 'allauth',
@@ -132,6 +130,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'plays.CustomUser'
 LOGIN_URL = 'plays:login'
+
+# Media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # AUTHENTICATION_BACKENDS = [
 #     'django.contrib.auth.backends.ModelBackend',
