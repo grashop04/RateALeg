@@ -1,13 +1,108 @@
-.event-details{
-    display: inline;
-    flex-direction: column; 
+.checked {
+    color: gold !important
+}
+
+.my-btn {
+    background-color: inherit !important;
+    border: 0 !important;
+}
+
+.fa-star.hovered{
+    color: #cbb776
+}
+
+.play-container {
+    display: flex;
+    gap: 3rem;
+    margin-bottom: 2rem;
+    align-items: flex-start;
+}
+
+.play-image-rating {
+    flex: 1;
+    text-align: center;
+}
+
+
+.average-rating .fa {
+    font-size: 1.5rem;
+}
+
+.play-details {
+    flex: 2;
+}
+
+.play-image-rating img {
+    width: 250px;
+    height: auto;
+    border-radius: 0;
+    margin-bottom: 1rem;
+}
+
+.rate-rows {
+    display: flex;
     justify-content: center;
-    font-family: Arial, sans-serif;
-    color: #333;
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin: 20px auto; 
+    align-items: center;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.stars {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+/* Center the submit button */
+.submit-ratings {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.ratings-contain h3 {
+    text-align: center;
+}
+
+.comment-section-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: row; /* 🔥 This ensures Comment Box is on the left, List on the right */
+    gap: 3rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.comment-list {
+    flex: 1;
     max-width: 600px;
+    min-width: 300px;
+    width: 100%;
+}
+
+/* Style for the textarea and button */
+.comment-box form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+#comment-input {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    resize: vertical;
+    margin-bottom: 1rem;
+}
+
+/* Border + layout for the comment display box */
+.comment-list {
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    width: 100%;
+    text-align: left; /* Ensure text is left-aligned inside the box */
 }

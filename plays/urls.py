@@ -1,3 +1,4 @@
+from django.urls import path, include
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
@@ -15,6 +16,9 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('<slug:play_slug>/chosen_play/', views.chosen_show, name='chosen_show'),
     path('logout/', views.user_logout, name="logout"),
+    path('<slug:play_slug>/review/', views.make_a_review_discuss_event, name='make_a_review_discuss_event'),
+    path('submit-rating/', views.submit_rating, name='submit_rating'),
+    path('submit-comment/', views.submit_comment, name='submit_comment'),
 ]
 
 if settings.DEBUG:
