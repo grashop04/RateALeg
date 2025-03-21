@@ -1,0 +1,31 @@
+.container {
+    background-color: #2d8078;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+p {
+    background-color: white ;
+    font-size: 20px;
+    margin-top: 20px;
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    color: white;
+    text-align: center;
+}
+
+h3 {
+    color: white;
+    font-weight: bold;
+}
+
+.kings-img {
+    display: block;
+    margin: auto;
+    width: 100%;
+    height: auto;
+}
