@@ -26,5 +26,6 @@ h3 {
 .kings-img {
     display: block;
     margin: auto;
-    width: auto;
+    width: 100%;
+    height: auto;
 }

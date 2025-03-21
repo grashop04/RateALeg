@@ -3,27 +3,72 @@
 
 {% block title_block %}Shows - Rate A Leg{% endblock %}
 
-<head>
-  <link rel="stylesheet" href="{% static 'css/shows.css' %}">
-</head>
-
-
 {% block body_block %}
+<link rel="stylesheet" href="{% static 'css/shows.css' %}">
+
 <div class="container mt-4">
-    <h1>Here is the Home Page !</h1>
-    <p>The Shows will go here</p>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <form class="form-inline d-flex w-75">
+      <div class="input-group w-100">
+        <input class="form-control" type="text" placeholder="Search for a Show">
+        <div class="input-group-append">
+          <button class="search-btn" type="submit">🔍</button>
+        </div>
+      </div>
+    </form>
+  <div class="dropdown ml-2">
+    <button class="sort-btn dropdown-toggle" type="button" id="sortDropdown" data-toggle="dropdown">
+      Sort by...
+    </button>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="#">Alphabetical</a>
+      <a class="dropdown-item" href="#">Newest</a>
+      <a class="dropdown-item" href="#">Rating</a>
+      <a class="dropdown-item" href="#">Playwright</a>
+    </div>
+  </div>
+</div>
+
+<div class="welcome">
+  {% if user.is_authenticated %}
+    <h2>Welcome, {{ user.username }}</h2>
+  {% endif %}
+</div>
+
+<div class="chosen-show-wrapper">
+  <div class="featured-show">
+      <h2>Our Choice</h2>
+      {% if featured_play %}
+        <p>Featured Play: {{ featured_play.title }}</p>
+        {% if featured_play.slug %}
+          <a href="{% url 'plays:chosen_show' play_slug=featured_play.slug %}">
+              <img src="{% static 'images/'|add:featured_play.slug|add:'.jpg' %}" 
+                   alt="{{ featured_play.title }}" 
+                   width="150" height="200"/>
+          </a>
+        {% else %}
+          <p>Featured show unavailable.</p>
+        {% endif %}
+      {% else %}
+      <p>No featured show available.</p>
+      {% endif %}
+  </div>
 </div>
 
 <div>
-    <p>Here are the shows that are currently playing:</p>
-        {% for play in plays %}
-        <div>
-          <h3>{{ play.title }}</h3>
-          <a href="{% url 'plays:choosen_show' play_slug=play.slug %}">
-          <div class = "image">
-          <img src="{% static 'images/'|add:play.slug|add:'.jpg' %}" alt="{{ play.title }}" />
-          </div>
-        </div>
-      {% endfor %}
+  <h3 class="shows-header">Top rated shows of this month</h3>
+  <h3 class="shows-header">Now Showing</h3>
+  <div class="plays-container">
+    {% for play in plays %}
+    <div class="plays-title">
+        <a href="{% url 'plays:chosen_show' play_slug=play.slug %}">
+            <h3 class="play-title">{{ play.title }}</h3>
+            <div class="image">
+                <img src="{% static 'images/'|add:play.slug|add:'.jpg' %}" alt="{{ play.title }}" width=150 height=200/>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+  </div>
 </div>
 {% endblock %}
