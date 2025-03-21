@@ -1,0 +1,94 @@
+ .form-control {
+    background-color: #2d8078 !important;
+    color: white !important;
+    align-items: center;
+    top: 100px;
+}
+
+.form-control::placeholder, 
+.search-form::placeholder {
+    color: rgba(255, 255, 255, 0.7); 
+}
+
+.search-btn {
+    background-color: white;
+    border-radius: 5px;
+    border: 0.3px solid black;
+    transition: background-color 0.3s ease;
+    margin-top: 100px;
+    margin-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.search-btn:hover {
+    background-color: #2d8078; 
+    border-color: white;
+}
+
+.sort-btn {
+    background-color: #2d8078 !important;
+    color: white !important;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 105px;
+}
+
+.dropdown-item {
+    background-color: #2d8078;
+    color: white;
+    border: 0.5px solid black;
+    padding: 5px 10px;
+    margin: 0;
+}
+
+.plays-container {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.play-item {
+    text-align: center;
+    width: 160px;
+}
+
+.play-title {
+    font-size: 14px;
+    color: white;
+    background-color: #2d8078;
+    padding: 2px;
+}
+
+.featured-show {
+    text-align: center;
+    background-color: #2d8078;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.chosen-show-wrapper {
+    position: fixed; /* Keeps it outside the main layout */
+    left: 50px;
+    top: 120px;
+    width: 200px;
+    float: left;
+    z-index: 10; /* Ensures it stays above other elements */
+}
+
+/* Adjust position for smaller screens */
+@media (max-width: 1024px) {
+    .chosen-show-wrapper {
+        left: 10px; /* Moves it closer on smaller screens */
+        top: auto; /* Resets the position */
+        bottom: 50px; /* Keeps it at a stable position */
+    }
+}
+
+
+.shows-header {
+}

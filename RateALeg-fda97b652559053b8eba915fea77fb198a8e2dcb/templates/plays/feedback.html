@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title_block %}Feedback - Rate A Leg{% endblock %}
+
+{% block body_block %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/feedback.css' %}">
+
+<div class="container mt-4">
+    <h1>Have a Suggestion? Contact Us</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <form action="{% url 'plays:feedback' %}" method="post">
+        {% csrf_token %}
+        <textarea id="feedback-text" name="feedback" class="form-control feedback-box" rows="5" placeholder="Type here..."></textarea>
+        <button type="submit" class="btn">Submit</button>
+    </form>
+</div>
+{% endblock %}
