@@ -80,9 +80,6 @@
     z-index: 10; /* Ensures it stays above other elements */
 }
 
-h3{
-    text-align: center;
-}
 
 /* Adjust position for smaller screens */
 @media (max-width: 1024px) {

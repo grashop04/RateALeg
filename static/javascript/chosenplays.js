@@ -2,6 +2,17 @@ const ratings = { soundtrack: null, set: null, cast: null };
 const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 const submitBtn = document.getElementById('submit-rating-btn');
 
+document.addEventListener('DOMContentLoaded', () => {
+    Object.keys(savedRatings).forEach(category => {
+        ratings[category] = savedRatings[category];
+        const stars = document.querySelectorAll(`.${category}`);
+        handleStarSelect(stars, savedRatings[category]);  // Apply gold stars
+    });
+    checkRatingsCompletion();
+});
+
+
+
 const handleStarSelect = (stars, size) => {
     stars.forEach((star, index) => {
         if (index < size) {
@@ -13,6 +24,15 @@ const handleStarSelect = (stars, size) => {
     });
 };
 
+const handleStarHover = (stars, size) => {
+    stars.forEach((star, index) => {
+        if (index < size) {
+            star.classList.add('hovered');
+        } else {
+            star.classList.remove('hovered');
+        }
+    });
+};
 
 const handleRating = (category) => {
     const stars = document.querySelectorAll(`.${category}`);
@@ -61,7 +81,7 @@ submitBtn.addEventListener('click', () => {
                 console.log(`${category} rating submitted successfully: ${response.score}`);
                 const stars = document.querySelectorAll(`.${category}`);
                 stars.forEach(star => {
-                    star.style.pointerEvents = 'none'; // disables interaction
+                    star.style.pointerEvents = 'none'; 
                 });
             },
             error: function(error) {

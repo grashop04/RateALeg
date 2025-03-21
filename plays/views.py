@@ -164,48 +164,31 @@ def user_logout(request):
     logout(request)
     return redirect(reverse('shows'))
 
+
 def chosen_show(request, play_slug):
     play = get_object_or_404(Play, slug=play_slug)
     user_review=None
     ##user_review = Review.objects.filter(playId=play, username=request.user).first()
-    user_has_reviewed = False
-    
+    user_ratings = {"soundtrack": 0, "set": 0, "cast": 0}
+
     if request.user.is_authenticated:
         user_review = Review.objects.filter(playId=play, username=request.user).first()
-        user_has_reviewed = user_review is not None
-
-
-    if request.method == 'POST':  
-        review_form = ReviewForm(request.POST)
-
-        if review_form.is_valid():
-            review = review_form.save(commit=False)
-            review.user = request.user
-            review.playId = play
-            review.save()
-
-            messages.success(request, "Review submitted successfully!")
-            return redirect('plays:chosen_plays', play_slug=play.slug)  
         
-        messages.error(request, "Error submitting review.")
-
-    else:
-        review_form = ReviewForm()
-
-
-    avg_rating = Review.objects.filter(playId=play).aggregate(Avg('AverageRating'))['AverageRating__avg']
-    
-    if avg_rating is None:
-        avg_rating = 0  
-    else:
-        avg_rating = round(avg_rating, 1)  
+        if user_review:
+            user_ratings = {
+                "soundtrack": user_review.SoundTrackRating or 0,
+                "set": user_review.SetRating or 0,
+                "cast": user_review.CastRating or 0,
+            }
+        
+    avg_rating = Review.objects.filter(playId=play).aggregate(Avg('AverageRating'))['AverageRating__avg'] or 0
+    avg_rating = round(avg_rating, 1)
 
     context = {
         'play': play,
         'user_review': user_review,
-        'review_form': review_form,
         'avg_rating':avg_rating,
-        'user_has_reviewed': user_has_reviewed,
+        'user_ratings':user_ratings
     }
     return render(request, 'plays/chosen_show.html', context)
 

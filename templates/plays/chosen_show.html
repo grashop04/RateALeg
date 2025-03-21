@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{% static 'css/chosen_shows.css' %}">
 </head>
 
+
 <div class = "play-container">
     <div class = "play-image-rating">
         <img src="{% static 'images/'|add:play.slug|add:'.jpg' %}" alt="{{ play.title }}">
@@ -32,13 +33,14 @@
         <h1>{{ play.title }}</h1>
         <p>{{ play.description }}</p>
         <div class="info-box">
-            <p><strong>Date Showing:</strong></p>
-            <p><strong>Location:</strong></strong></p>
+            <p><strong>Date Showing:</strong>{{play.date_play}}</p>
+            <p><strong>Location:</strong>{{play.location}}</strong></p>
             <p><strong>Playwright: </strong> {{play.WriterFirstName}} {{play.WriterSecondName}}</p>
         </div>
     </div>
 </div>
 
+{% if user.is_authenticated %}
 <div class="ratings-contain">
 <h3>Soundtrack Rating</h3>
 <div class="rate-rows">
@@ -99,7 +101,11 @@
         <button type="submit" class="btn btn-primary mt-2">Submit Comment</button>
     </form>
     
+{% else %}
+<p style="text-align:center;"> Please <a href="{% url 'plays:login' %}">log in</a> to rate this show.</p>
+{% endif %}
 
+<h3>Comments</h3>
 <div class="comment-list">
     {% for comment in play.review_set.all %}
         <div class="comment">
@@ -112,10 +118,12 @@
 </div>
 </div>
 
-
-
-
 <script src="{% static 'javascript/chosenplays.js' %}"></script>
+
+<!--This code works, but for some reason the red arrows are appearing ??-->
+<script>
+    const savedRatings = {{ user_ratings|safe }};
+</script>
     
 
 {% endblock %}
