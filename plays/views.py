@@ -9,6 +9,7 @@ from .models import Play, Review, CustomUser, Category
 from .forms import ReviewForm, ProfileForm
 from django.urls import reverse
 from .forms import SignUpForm
+import json
 
 def shows(request):
     category_name = request.GET.get('category')
