@@ -5,12 +5,13 @@
 
 {% block body_block %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
-<div class="centre-login">
+<div>
 <div class="container mt-4">
     
 
-    <h1>Login</h1>
+    
     <div class="login">
+        <h1>Login</h1>
     <form id="login_form" method="post" action="{% url 'login' %}">
     {% csrf_token %}
     <label for="username">Username</label>

@@ -6,9 +6,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.templatetags.static import static
 from .models import Play, Review, CustomUser, Category
-from .forms import ReviewForm, ProfileForm
+from .forms import ReviewForm, ProfileForm, SignUpForm
 from django.urls import reverse
-from .forms import SignUpForm
+from django.conf import settings
 
 def shows(request):
     category_name = request.GET.get('category')
@@ -72,11 +72,12 @@ def maps(request):
     context_dict['kingstheatre'] = 'http://kingstheatreglasgow.net/'
     context_dict['theatreroyal'] = 'http://theatreroyalglasgow.net/'
     context_dict['paviliontheatre'] = 'https://trafalgartickets.com/pavilion-theatre-glasgow/en-GB'
-
+    context_dict['apiKey'] = settings.API_KEY
+    context_dict['googleapi'] = f"https://www.google.com/maps/embed/v1/search?key={context_dict['apiKey']}&q=theatres+Glasgow+City"
     
     return render(request, 'plays/maps.html', context_dict)
 
-def user_login(request):
+def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -90,10 +91,8 @@ def user_login(request):
             else:
                 return HttpResponse("Your account is disabled.")
         else:
-            print(f"Invalid login details: {username}, {password}")
-            return HttpResponse("Invalid login details supplied.")
-    else:
-        return render(request, 'plays/login.html')
+            messages.error(request, "Invalid username or password")
+    return render(request, 'plays/login.html')
 
 def logout_view(request):
     logout(request)
