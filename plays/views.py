@@ -40,6 +40,7 @@ def shows(request):
     except Play.DoesNotExist:
         featured_play = None
     categories = Category.objects.all()
+    print("Number of plays retrieved:", plays.count())
     return render(request, 'plays/shows.html', {'plays': plays, 'categories': categories, 'sort_by': sort_by, 'featured_play': featured_play,})
 
 def show_detail(request, show_id):
