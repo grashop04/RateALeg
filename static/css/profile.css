@@ -79,4 +79,37 @@ button:hover {
 button:active {
     box-shadow: 1px 1px 3px ;
 }
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* 3 per row max */
+    gap: 20px;
+    padding: 20px 0;
+  }
   
+  .review-box {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+  }
+  
+  .review-box:hover {
+    transform: scale(1.02);
+  }
+  
+  .review-box img {
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+  
+  .ratings p {
+    margin: 5px 0;
+  }
+  
+  .play-info {
+    text-align: center;
+    margin-bottom: 10px;
+  }
