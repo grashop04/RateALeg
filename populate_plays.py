@@ -40,21 +40,22 @@ def populate():
     for play_info in plays_data:
         naive_datetime = datetime.datetime.strptime(play_info["releaseDate"], "%Y-%m-%d")
         aware_datetime = make_aware(naive_datetime)
-        play, created = Play.objects.get_or_create(
-            title=play_info["title"],
-            defaults={
-                "WriterFirstName": play_info["WriterFirstName"],
-                "WriterSecondName": play_info["WriterSecondName"],
-                "genre": play_info["genre"],
-                "releaseDate": aware_datetime,
-                "description": play_info["description"],
-                "playImage": play_info["playImage"],
-            }
-        )
-        if created:
-            print(f"Added new play: {play.title}")
-        else:
-            print(f"Play already exists: {play.title}")
+
+        play, created = Play.objects.get_or_create(title=play_info["title"])
+
+     # Always update these fields in case they change
+        play.WriterFirstName = play_info["WriterFirstName"]
+        play.WriterSecondName = play_info["WriterSecondName"]
+        play.genre = play_info["genre"]
+        play.releaseDate = aware_datetime
+        play.description = play_info["description"]
+        play.playImage = play_info["playImage"]
+        play.location = play_info["location"]
+        play.date_play = aware_datetime 
+
+    play.save()
+
+    print(f"{'Added' if created else 'Updated'} play: {play.title}")
 
     reviews = [
     {

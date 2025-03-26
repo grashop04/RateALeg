@@ -27,4 +27,32 @@
     </form>
     <script src="{% static 'javascript/edit.js' %}"></script>
 </div>
-{% endblock %}
+
+{% if reviews %}
+   {% for review in reviews %}
+     <div class="review-box">
+       <div class="play-info">
+         {% if review.playId.slug %}
+           <a href="{% url 'plays:chosen_show' play_slug=review.playId.slug %}">
+             <h4>{{ review.playId.title }}</h4>
+             <img src="{% static 'images/'|add:review.playId.slug|add:'.jpg' %}" alt="{{ review.playId.title }}" width="150" height="200">
+           </a>
+         {% else %}
+           <h4>{{ review.playId.title }}</h4>
+           <p>No image available</p>
+         {% endif %}
+       </div>
+       <div class="ratings">
+         <p><strong>Cast Rating:</strong> {{ review.CastRating }}</p>
+         <p><strong>Set Rating:</strong> {{ review.SetRating }}</p>
+         <p><strong>Soundtrack Rating:</strong> {{ review.SoundTrackRating }}</p>
+         <p><strong>Comment:</strong> {{ review.comment }}</p>
+       </div>
+     </div>
+   {% endfor %}
+ {% else %}
+   <p>You haven't reviewed any plays yet.</p>
+ {% endif %}
+ 
+ {% endblock %}
+
