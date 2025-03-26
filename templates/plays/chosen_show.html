@@ -144,13 +144,13 @@
 
 <div class="spotify-code">
     {% if play.spotify_code %}
-        {{ play.spotify_code }}
+        {{ play.spotify_code|safe }}
     {% else %}
         <p>Sorry, no Spotify code available for this show.</p>
     {% endif %}
 </div>
 
-<p>Spotify code: {{ play.spotify_code }}</p>
+<p>Spotify code: {{ play.spotify_code|safe }}</p>
 
 
 <script src="{% static 'javascript/comment-rating-toggler.js' %}"></script>
@@ -158,7 +158,7 @@
 
 <!--This code works, but for some reason the red arrows are appearing ??-->
 <script>
-    const savedRatings = JSON.parse('{{ user_ratings|escapejs }}');
+    const savedRatings = {{ user_ratings|safe }};
 </script>
 
 
