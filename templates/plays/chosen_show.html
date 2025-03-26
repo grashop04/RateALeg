@@ -148,7 +148,7 @@
 
 <!--This code works, but for some reason the red arrows are appearing ??-->
 <script>
-    const savedRatings = JSON.parse('{{ user_ratings|escapejs }}');
+    const savedRatings = {{ user_ratings|safe }};
 </script>
     
 
