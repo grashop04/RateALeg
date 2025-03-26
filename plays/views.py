@@ -1,3 +1,4 @@
+import json
 import traceback
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
@@ -46,32 +47,6 @@ def show_detail(request, show_id):
     play = get_object_or_404(Play, id=show_id)
     reviews = play.reviews.all()
     return render(request, 'plays/show_detail.html', {'play': play, 'reviews': reviews})
-
-def make_a_review_discuss_event(request, play_slug):
-    play = get_object_or_404(Play, slug=play_slug)
-
-    if request.method == 'POST':
-        review_form = ReviewForm(request.POST, prefix="review")
-
-        if review_form.is_valid():
-            review = review_form.save(commit=False)
-            review.user = request.user
-            review.play = play
-            review.save()
-        
-            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                return JsonResponse({"message": "Review submitted successfully!"})
-
-            messages.success(request, "Review submitted successfully!")
-            return redirect('plays:chosen_show', play_slug=play.slug)
-        else:
-            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                return JsonResponse({"error": "Invalid data"}, status=400)
-
-            messages.error(request, "Error submitting your review. Please check the form.")
-    
-    return redirect('plays:chosen_play', play_slug=play.slug)
-
 
 def about(request):
     return render(request, 'plays/about.html')
@@ -154,9 +129,14 @@ def profile(request):
 
         return JsonResponse({"success": False})
     
+    reviews = Review.objects.filter(username=user).select_related('playId').order_by('-reviewID')
+    
     profile_picture_url = user.profilePicture.url if user.profilePicture else static("images/default-profile-pic.jpg")
-    return render(request, "plays/profile.html", {"user": user, "profile_picture_url": profile_picture_url})
-
+    return render(request, "plays/profile.html", {
+        "user": user,
+        "profile_picture_url": profile_picture_url,
+        "reviews": reviews,
+    })
 
 
 @login_required

@@ -7,30 +7,34 @@ document.addEventListener('DOMContentLoaded', () => {
         ratings[category] = savedRatings[category];
         const stars = document.querySelectorAll(`.${category}`);
         handleStarSelect(stars, savedRatings[category]);  // Apply gold stars
+        if (rating > 0) {
+            stars.forEach(star => {
+                star.style.pointerEvents = 'none';
+            });
+        }
     });
-    checkRatingsCompletion();
+
+    if (ratings.soundtrack && ratings.set && ratings.cast) {
+        submitBtn.disabled = true;
+        submitBtn.innerText = 'Submitted';
+    } else {
+        checkRatingsCompletion(); 
+    }
 });
 
 
-
 const handleStarSelect = (stars, size) => {
+    size = parseInt(size);
     stars.forEach((star, index) => {
-        if (index < size) {
-            star.classList.add('checked'); 
-            star.classList.remove('hovered'); 
-        } else {
-            star.classList.remove('checked');
-        }
+        star.classList.toggle('checked', index < size);
+        star.classList.remove('hovered');
     });
 };
 
 const handleStarHover = (stars, size) => {
+    size = parseInt(size); 
     stars.forEach((star, index) => {
-        if (index < size) {
-            star.classList.add('hovered');
-        } else {
-            star.classList.remove('hovered');
-        }
+        star.classList.toggle('hovered', index < size);
     });
 };
 
@@ -49,13 +53,14 @@ const handleRating = (category) => {
         });
 
         star.addEventListener('click', () => {
-            const rating = star.dataset.value;
+            const rating = parseInt(star.dataset.value);
             ratings[category] = rating;
             handleStarSelect(stars, rating);
             checkRatingsCompletion(); 
         });
     });
 };
+
 
 const checkRatingsCompletion = () => {
     submitBtn.disabled = !(ratings.soundtrack && ratings.set && ratings.cast);

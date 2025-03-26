@@ -46,9 +46,10 @@ def populate():
                 "WriterFirstName": play_info["WriterFirstName"],
                 "WriterSecondName": play_info["WriterSecondName"],
                 "genre": play_info["genre"],
-                "releaseDate": aware_datetime,
+                "releaseDate": play_info["releaseDate"],
                 "description": play_info["description"],
                 "playImage": play_info["playImage"],
+                "location": play_info["location"],       
             }
         )
         if created:

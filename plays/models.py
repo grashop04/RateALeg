@@ -32,16 +32,6 @@ class Category(models.Model):
 
 
 class Play(models.Model):
-    LOCATION_CHOICES = [
-        ("King's Theatre", "King's Theatre"),
-        ("Theatre Royal", "Theatre Royal"),
-        ("Pavilion Theatre", "Pavilion Theatre"),
-        ("Glasgow Royal Concert Hall", "Glasgow Royal Concert Hall"),
-        ("SEC Armadillo", "SEC Armadillo"),
-        ("Tron Theatre", "Tron Theatre"),
-        ("Citizens Theatre", "Citizens Theatre"),
-    ]
-    
     
     playID = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100)
@@ -51,7 +41,7 @@ class Play(models.Model):
     releaseDate = models.DateField()
     description = models.TextField(max_length=1000)
     playImage = models.ImageField(upload_to='images/')
-    location = models.CharField(max_length=100, choices=LOCATION_CHOICES, default="King's Theatre")
+    location = models.CharField(max_length=100)
     date_play= models.DateField(null=True, blank=True)
     slug = models.SlugField(unique=True, blank=True)
 
@@ -66,16 +56,6 @@ class Play(models.Model):
 
 
 class Review(models.Model):
-    
-    LOCATION_CHOICES = [
-        ("King's Theatre", "King's Theatre"),
-        ("Theatre Royal", "Theatre Royal"),
-        ("Pavilion Theatre", "Pavilion Theatre"),
-        ("Glasgow Royal Concert Hall", "Glasgow Royal Concert Hall"),
-        ("SEC Armadillo", "SEC Armadillo"),
-        ("Tron Theatre", "Tron Theatre"),
-        ("Citizens Theatre", "Citizens Theatre"),
-    ]
     
     reviewID = models.AutoField(primary_key=True)
     playId = models.ForeignKey(Play, on_delete=models.CASCADE)  
