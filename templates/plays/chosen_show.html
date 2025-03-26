@@ -33,7 +33,7 @@
         <h1>{{ play.title }}</h1>
         <p>{{ play.description }}</p>
         <div class="info-box">
-            <p><strong>Date Showing:</strong>{{play.date_play}}</p>
+            <p><strong>Date Showing:</strong> {{ play.date_play }}</p>
             <p><strong>Location:</strong> 
                 <a href="{% url 'maps' %}?location={{ play.location }}" class="location-link">
                     {{ play.location }}
@@ -101,10 +101,12 @@
             </div>
         </div>
 
+  
         <div class="submit-ratings">
             <button id="submit-rating-btn" class="btn btn-primary mt-3" disabled>Submit Ratings</button>
         </div>
-    </div>
+        </div>
+    
 
     <div id="comment-section-container" style="display: none;">
         <h3>Leave a Comment</h3>
@@ -116,10 +118,15 @@
             </div>
             <button type="submit" class="btn btn-primary mt-2">Submit Comment</button>
         </form>
-        
+      
     {% else %}
-    <p class="rate-message"> Please <a href="{% url 'plays:login' %}">log in</a> to rate this show.</p>
+        
+    <p class="rate-message">
+        Please <a href="{% url 'plays:login' %}">log in</a> to rate this show or 
+        <a href="{% url 'plays:signup' %}">sign up</a>.
+    </p>
     {% endif %}
+
 
     <h3 class="comment-header">Comments</h3>
     <div class="comment-list">
@@ -135,12 +142,13 @@
     </div>
 </div>
 
+
 <script src="{% static 'javascript/comment-rating-toggler.js' %}"></script>
 <script src="{% static 'javascript/chosenplays.js' %}"></script>
 
 <!--This code works, but for some reason the red arrows are appearing ??-->
 <script>
-    const savedRatings = {{ user_ratings|safe }};
+    const savedRatings = JSON.parse('{{ user_ratings|escapejs }}');
 </script>
     
 

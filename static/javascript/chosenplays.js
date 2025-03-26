@@ -7,11 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
         ratings[category] = savedRatings[category];
         const stars = document.querySelectorAll(`.${category}`);
         handleStarSelect(stars, savedRatings[category]);  // Apply gold stars
+        if (savedRatings[category] > 0) {
+            stars.forEach(star => {
+                star.style.pointerEvents = 'none';
+            });
+        }
     });
-    checkRatingsCompletion();
 });
-
-
 
 const handleStarSelect = (stars, size) => {
     stars.forEach((star, index) => {
