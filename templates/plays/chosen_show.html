@@ -135,6 +135,17 @@
     </div>
 </div>
 
+<div class="spotify-code">
+    {% if play.spotify_code %}
+        {{ play.spotify_code }}
+    {% else %}
+        <p>Sorry, no Spotify code available for this show.</p>
+    {% endif %}
+</div>
+
+<p>Spotify code: {{ play.spotify_code }}</p>
+
+
 <script src="{% static 'javascript/comment-rating-toggler.js' %}"></script>
 <script src="{% static 'javascript/chosenplays.js' %}"></script>
 
@@ -142,6 +153,8 @@
 <script>
     const savedRatings = {{ user_ratings|safe }};
 </script>
+
+
     
 
 {% endblock %}

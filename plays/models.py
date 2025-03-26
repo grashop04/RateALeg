@@ -53,8 +53,8 @@ class Play(models.Model):
     playImage = models.ImageField(upload_to='images/')
     location = models.CharField(max_length=100, choices=LOCATION_CHOICES, default="King's Theatre")
     date_play= models.DateField(null=True, blank=True)
+    spotify_code = models.TextField(blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True)
-
 
     def save(self, *args, **kwargs):
         if not self.slug:   

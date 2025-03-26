@@ -39,13 +39,13 @@ def shows(request):
     except Play.DoesNotExist:
         featured_play = None
     categories = Category.objects.all()
-    print("Number of plays retrieved:", plays.count())
     return render(request, 'plays/shows.html', {'plays': plays, 'categories': categories, 'sort_by': sort_by, 'featured_play': featured_play,})
 
 def show_detail(request, show_id):
     play = get_object_or_404(Play, id=show_id)
     reviews = play.reviews.all()
-    return render(request, 'plays/show_detail.html', {'play': play, 'reviews': reviews})
+    print(play.spotify_code)  # Check terminal output
+    return render(request, 'plays/show_detail.html', {'play': play, 'reviews': reviews, 'spotify_code': play.spotify_code})
 
 def make_a_review_discuss_event(request, play_slug):
     play = get_object_or_404(Play, slug=play_slug)
@@ -191,7 +191,8 @@ def chosen_show(request, play_slug):
         'play': play,
         'user_review': user_review,
         'avg_rating':avg_rating,
-        'user_ratings':user_ratings
+        'user_ratings':user_ratings,
+        'spotify_code': play.spotify_code,
     }
     return render(request, 'plays/chosen_show.html', context)
 
