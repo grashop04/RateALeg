@@ -6,6 +6,8 @@
 {% block body_block %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/maps.css' %}">
 
+<div class="container">
+
 
   <div class="theatre-list">
   <h3>Popular Theatres in Glasgow</h3>
@@ -18,10 +20,9 @@
   </div>
 
 
-
  <!-- The API Maps-->
 
- <div class="theatre-list">
+ <div class="theatre-list map-container">
   <iframe 
   width="600"
   height="450"
@@ -32,6 +33,6 @@
 </iframe> 
 </div>
 
-
+</div>
 
 {% endblock %}

@@ -1,116 +1,38 @@
-
-
-
-/* .maps{
-    
-     
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 50%;
-    text-align: center;
-
-    margin: auto;
-    padding: 10px;
-    border-radius: 10px;
-    border-color: #2d8078;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
-    background-color: white;
-
-    
-    /* display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    width: 50%;
-    text-align: center;
-
-    margin: auto;
-    border-radius: 10px;
-    border-color: #2d8078;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
-    background-color: white;
-    gap: 20px; */
-/*}
-
-.theatre-list{
-    float: left;
-    font-size: 25px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-    margin-top: 10px;
-    margin-bottom: 5px;
-    text-align: center;
-    color: #555;
-    font-weight: bold;
-
-}
-
-.theatre-list h3, ul, li{
-    padding: 20px;
-    list-style-type: style type none;
-    list-style-type: none;
-    border: #2d8078;;
-} */
-
-/* .maps {
-    float: left;
-    justify-content: space-between; /* Add space between the two elements 
-    align-items: flex-start; /* Align items to the top of the container 
-    gap: 20px; /* Optional: Add space between the two elements 
-    width: 100%; /* Ensure the container takes up full width 
-    text-align: center;
-    color: #555;
-    font-weight: bold;
-    padding: 10px;
-    border-radius: 10px;
-    border-color: #2d8078;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    background-color: white;
+.container {
+    display: flex; 
+    justify-content: space-between; 
+    gap: 20px; 
+    flex-wrap: wrap; 
 }
 
 .theatre-list {
-
-    display: flex;
-    flex-direction: column; /* Stack the content inside the theatre-list vertically 
-    font-size: 18px;
-    width: 45%; /* Set a width so both elements fit side by side 
-    text-align: center;
-    color: #555;
-    font-weight: bold;
+    flex: 1; 
     padding: 10px;
+    background-color: white;
     border-radius: 10px;
-    border-color: #2d8078;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    background-color: white;
-} */
-
-
-
-
-.theatre-list{
-    float: left;
-    padding: 20px;
-    margin: 20px;
-    text-align: center;
-    font-size: 25px;
-    background-color: white;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    padding: 10px;
-    border-radius: 10px;
-    border-color: #2d8078;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    background-color: white;
-    
+    margin: 10px;
+    height: 600px;
+    width: 450;
 }
 
-.theatre-list h3, .theatre-list ul,  .theatre-list li{
-    padding: 20px;
-    list-style-type: style type none;
+.map-container iframe {
+    width: 100%; 
+    height: 100%; 
+    border-radius: 10px;
+}
+
+.theatre-list h3, .theatre-list ul, .theatre-list li {
+    padding: 10px;
+    margin: 0;
     list-style-type: none;
+    font-weight: bold;
+    text-align: center;
 }
+
+.theatre-list a {
+    font-size: 25px;
+    text-decoration: none;
+    color: inherit;
+}
+

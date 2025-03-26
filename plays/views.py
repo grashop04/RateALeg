@@ -249,17 +249,18 @@ def submit_rating(request):
 
 
 @login_required
-def update_profile(request):
-    user = request.user 
+def submit_comment(request):
+    comment_text = request.POST.get('comment')
+    play_id = request.POST.get('play_id')
 
-    if request.method == "POST":
-        form = ProfileForm(request.POST, request.FILES, instance=user)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Profile updated successfully!")
-            return redirect("plays:profile")
+    play = get_object_or_404(Play, pk=play_id)
+    review = Review.objects.filter(playId=play, username=request.user).first()
 
+    if review:
+        review.comment = comment_text
+        review.save()
+        messages.success(request, "Comment submitted successfully.")
     else:
         messages.error(request, "You must rate the play before leaving a comment.")
 
-    return render(request, "plays/profile.html", {"form": form, "user": user})
+    return redirect('plays:chosen_show', play_slug=play.slug)
