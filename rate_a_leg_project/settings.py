@@ -17,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 STATICFILES_DIRS = [BASE_DIR, "static",]
 
-ALLOWED_HOSTS = ['grashop004.pythonanywhere.com', '127.0.0.1', 'localhost']
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -29,7 +29,7 @@ SECRET_KEY = 'v(yk5&%+cs#dm!bam9ay_2bj+88xjdn*thw*$#gz)kd242z(jd'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['grashop004.pythonanywhere.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
