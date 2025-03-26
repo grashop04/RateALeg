@@ -120,7 +120,7 @@
         </form>
       
     {% else %}
-
+        
     <p class="rate-message">
         Please <a href="{% url 'plays:login' %}">log in</a> to rate this show or 
         <a href="{% url 'plays:signup' %}">sign up</a>.
@@ -148,7 +148,7 @@
 
 <!--This code works, but for some reason the red arrows are appearing ??-->
 <script>
-    const savedRatings = {{ user_ratings|safe }};
+    const savedRatings = JSON.parse('{{ user_ratings|escapejs }}');
 </script>
     
 
