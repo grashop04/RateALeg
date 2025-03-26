@@ -71,9 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 .then(data => {
                     if (data.success) {
                         alert("Profile picture updated successfully!");
-                        
-                        // Redirect to the profile page after updating profile picture
-                        window.location.href = window.location.href;  // Reload the page
+                        window.location.href = window.location.href; 
                     } else {
                         alert("Error updating profile picture.");
                     }
