@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title_block %}Search Results{% endblock %}
+
+{% block body_block %}
+<div class="container mt-4">
+    <h2>Search Results for "{{ query }}"</h2>
+    {% if results %}
+        <ul>
+            {% for play in results %}
+                <li>
+                    <a href="{% url 'plays:chosen_show' play.slug %}">{{ play.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+</div>
+{% endblock %}
+

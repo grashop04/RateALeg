@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.templatetags.static import static
-from .models import Play, Review, CustomUser, Category
+from .models import Play, Review, CustomUser, Category, Feedback
 from .forms import ReviewForm, ProfileForm
 from django.urls import reverse
 from .forms import SignUpForm
@@ -64,7 +64,17 @@ def about(request):
 def soundtrack(request):
     return render(request, 'plays/soundtrack.html')
 
+@login_required
 def feedback(request):
+    if request.method == "POST":
+        feedback_text = request.POST.get("feedback")
+        if feedback_text:
+            Feedback.objects.create(
+                username=request.user,
+                comment=feedback_text
+            )
+            messages.success(request, "Feedback submitted successfully! Thank you for your support")
+            return redirect('plays:feedback')
     return render(request, 'plays/feedback.html')
 
 def maps(request):
@@ -168,3 +178,11 @@ def update_profile(request):
         form = ProfileForm(instance=user)
 
     return render(request, "plays/profile.html", {"form": form, "user": user})
+
+def search(request):
+    query = request.GET.get("q", "")
+    if query:
+        results = Play.objects.filter(title__icontains=query)
+    else:
+        results = Play.objects.none()
+    return render(request, "plays/search_results.html", {"results": results, "query": query})

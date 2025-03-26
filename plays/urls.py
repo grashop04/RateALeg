@@ -13,6 +13,8 @@ urlpatterns = [
     path('login/', views.user_login, name='login'),
     path('signup/', views.user_signup, name='signup'),
     path('profile/', views.profile, name='profile'),
+    path("profile/edit/", views.update_profile, name="update_profile"),
+    path('search/', views.search, name='search'),
     path('<slug:play_slug>/chosen_play/', views.chosen_show, name='chosen_show'),
     path('logout/', views.user_logout, name="logout"),
 ]
