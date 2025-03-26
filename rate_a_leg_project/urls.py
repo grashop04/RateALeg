@@ -30,9 +30,9 @@ urlpatterns = [
     path('signup/', views.user_signup, name='signup'),
     path('profile/', views.profile, name='profile'),
     path('feedback/', views.feedback, name='feedback'),
-    path('<slug:play_slug>/chosen_play/', views.chosen_show, name='chosen_show'),
+    path('logout/', views.logout, name='logout'),
+    path('<slug:play_slug>/chosen_show/', views.chosen_show, name='chosen_show'),
     path('logout/', views.user_logout, name="logout"),
-]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('submit-rating/', views.submit_rating, name='submit-rating'),
+    path('submit-comment/', views.submit_comment, name='submit_comment'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

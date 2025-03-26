@@ -15,9 +15,15 @@ class SignUpForm(forms.ModelForm):
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
-        fields = ['SoundTrackRating', 'CastRating', 'SetRating', 'AverageRating', 'comment']
+        fields = ['SoundTrackRating', 'CastRating', 'SetRating', 'comment']
+        widgets = {
+            'soundtrack_rating': forms.HiddenInput(),
+            'cast_rating': forms.HiddenInput(),
+            'set_rating': forms.HiddenInput(),
+            'comment':forms.Textarea(attrs={'rows':4}),
+        }
 
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ['profilePicture', 'bio']
+        fields = ['profile_pic', 'bio']
