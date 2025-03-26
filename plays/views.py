@@ -77,7 +77,7 @@ def maps(request):
     
     return render(request, 'plays/maps.html', context_dict)
 
-def login_view(request):
+def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -91,8 +91,10 @@ def login_view(request):
             else:
                 return HttpResponse("Your account is disabled.")
         else:
-            messages.error(request, "Invalid username or password")
-    return render(request, 'plays/login.html')
+            print(f"Invalid login details: {username}, {password}")
+            return HttpResponse("Invalid login details supplied.")
+    else:
+        return render(request, 'plays/login.html')
 
 def logout_view(request):
     logout(request)
@@ -151,3 +153,19 @@ def user_logout(request):
 def chosen_show(request, play_slug):
     play = get_object_or_404(Play, slug=play_slug)
     return render(request, 'plays/chosen_show.html', {'play': play})
+
+
+@login_required
+def update_profile(request):
+    user = request.user
+
+    if request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect("plays:profile")
+
+    else:
+        form = ProfileForm(instance=user)
+
+    return render(request, "plays/profile.html", {"form" :form, "user" : user})
