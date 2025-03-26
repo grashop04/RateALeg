@@ -26,4 +26,4 @@ class ReviewForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ['profilePicture', 'bio']
+        fields = ['profile_pic', 'bio']

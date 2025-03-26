@@ -77,16 +77,6 @@ h1 {
     margin-top: 1rem;
 }
 
-/* #ratings-contain {
-    background-color: white;
-    padding: 1rem;
-    border-radius: 8px;
-    border: 1px solid black;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-    margin: 30px;
-    width: 100%;
-} */
-
 .rating-comment-contain {
     background-color: #2d8078;
     width: 80%;
@@ -170,4 +160,8 @@ h1 {
     background-color: white;
     padding: 1rem;
     border-radius: 8px;
+}
+
+.comment-header {
+    color: white;
 }

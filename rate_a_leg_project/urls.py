@@ -35,7 +35,4 @@ urlpatterns = [
     path('logout/', views.user_logout, name="logout"),
     path('submit-rating/', views.submit_rating, name='submit-rating'),
     path('submit-comment/', views.submit_comment, name='submit_comment'),
-] 
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

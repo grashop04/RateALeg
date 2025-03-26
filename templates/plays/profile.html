@@ -5,27 +5,26 @@
 
 {% block body_block %}
 <link rel="stylesheet" href="{% static 'css/profile.css' %}">
-<input type="hidden" id="csrf_token" value="{{ csrf_token }}">
-
 <div class="container mt-4">
-    <div class="profile-container">
-        <div class="profile-left">
-            <img src="{{ user.profilePicture }}" alt="Profile Picture" id="profile-pic">
-            <input type="file" id="profile-pic-upload" accept="image/*" style="display: none;">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="profile-container">
+            <div class="profile-left">
+                <img src="{{ profile_picture_url }}" alt="Profile Picture" id="profile-pic">
+                <input type="file" name="profile_pic" id="profile-pic-upload" accept="image/*" style="display: none;">
+            </div>
+            <div class="profile-right">
+                <h2>{{ user.username }}</h2>
+                <p id="bio">{{ user.bio }}</p>
+                <div id="container">
+                    <button type="button" id="edit-button">EDIT</button>
+                    <button type="submit" id="done-button" style="display: none;">DONE</button>
+                </div>  
+            </div>
         </div>
-        <div class="profile-right">
-            <h2>{{ user.username }}</h2>
-            <p id="bio">{{ user.bio }}</p>
-            <input type="hidden" id="csrf_token" value="{{ csrf_token }}">
-            <div id="container">
-                <button type="submit" id="edit-button">EDIT</button>
-                <button id="done-button" style="display: none;">DONE</button>
-            </div>  
-            <script src="{% static 'javascript/edit.js' %}"></script>
-        </div>
-    </div>
-    <h3>Recently Reviewed Shows</h3>
-    <a href="{% url 'plays:logout' %}" id="logout-btn">Logout</a>
+        <h3>Recently Reviewed Shows</h3>
+        <a href="{% url 'plays:logout' %}" id="logout-btn">Logout</a>
+    </form>
+    <script src="{% static 'javascript/edit.js' %}"></script>
 </div>
-
 {% endblock %}

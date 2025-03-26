@@ -80,13 +80,9 @@
     z-index: 10; /* Ensures it stays above other elements */
 }
 
-
-/* Adjust position for smaller screens */
-@media (max-width: 1024px) {
+@media (max-width: 1700px){
     .chosen-show-wrapper {
-        left: 10px; /* Moves it closer on smaller screens */
-        top: auto; /* Resets the position */
-        bottom: 50px; /* Keeps it at a stable position */
+        display: none; 
     }
 }
 

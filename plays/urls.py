@@ -19,7 +19,4 @@ urlpatterns = [
     path('<slug:play_slug>/review/', views.make_a_review_discuss_event, name='make_a_review_discuss_event'),
     path('submit-rating/', views.submit_rating, name='submit_rating'),
     path('submit-comment/', views.submit_comment, name='submit_comment'),
-]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
