@@ -34,90 +34,108 @@
         <p>{{ play.description }}</p>
         <div class="info-box">
             <p><strong>Date Showing:</strong>{{play.date_play}}</p>
-            <p><strong>Location:</strong>{{play.location}}</strong></p>
+            <p><strong>Location:</strong> 
+                <a href="{% url 'maps' %}?location={{ play.location }}" class="location-link">
+                    {{ play.location }}
+                </a>
+            </p>
             <p><strong>Playwright: </strong> {{play.WriterFirstName}} {{play.WriterSecondName}}</p>
         </div>
     </div>
 </div>
 
+<div class="rating-comment-contain">
+    <div class="toggle-buttons">
+        {% if user.is_authenticated %}
+            <button id="toggle-ratings" class="btn btn-secondary">Rate</button>
+        {% endif %}
+        <button id="toggle-comments" class="btn btn-secondary">
+            {% if user.is_authenticated %}
+                Review
+            {% else %}
+                Comments
+            {% endif %}
+        </button>
+    </div>
 {% if user.is_authenticated %}
-<div class="ratings-contain">
-<h3>Soundtrack Rating</h3>
-<div class="rate-rows">
-        <div class="stars">
-            <form class="rate-form" action="" method="POST" id="soundtrack-form" data-playid="{{ play.playID }}">
+    <div id="ratings-contain">
+    <h3>Soundtrack Rating</h3>
+        <div class="rate-rows">
+            <div class="stars">
+                <form class="rate-form" action="" method="POST" id="soundtrack-form" data-playid="{{ play.playID }}">
+                    {% csrf_token %}
+                    <span class="fa fa-star fa-3x soundtrack" data-value="1"></span>
+                    <span class="fa fa-star fa-3x soundtrack" data-value="2"></span>
+                    <span class="fa fa-star fa-3x soundtrack" data-value="3"></span>
+                    <span class="fa fa-star fa-3x soundtrack" data-value="4"></span>
+                    <span class="fa fa-star fa-3x soundtrack" data-value="5"></span>
+                </form>
+            </div>
+        </div>
+
+        <h3>Set Rating</h3>
+        <div class="rate-rows">
+            <div class="stars">
+            <form class="rate-form" action="" method="POST" id="set-form" data-playid="{{ play.playID }}">
                 {% csrf_token %}
-                <span class="fa fa-star fa-3x soundtrack" data-value="1"></span>
-                <span class="fa fa-star fa-3x soundtrack" data-value="2"></span>
-                <span class="fa fa-star fa-3x soundtrack" data-value="3"></span>
-                <span class="fa fa-star fa-3x soundtrack" data-value="4"></span>
-                <span class="fa fa-star fa-3x soundtrack" data-value="5"></span>
+                <span class="fa fa-star fa-3x set" data-value="1"></span>
+                <span class="fa fa-star fa-3x set" data-value="2"></span>
+                <span class="fa fa-star fa-3x set" data-value="3"></span>
+                <span class="fa fa-star fa-3x set" data-value="4"></span>
+                <span class="fa fa-star fa-3x set" data-value="5"></span>
             </form>
+            </div>
+        </div>
+
+        <h3>Cast Rating</h3>
+        <div class="rate-rows">
+            <div class="stars">
+            <form class="rate-form" action="" method="POST" id="cast-form" data-playid="{{ play.playID }}">
+                {% csrf_token %}
+                <span class="fa fa-star fa-3x cast" data-value="1"></span>
+                <span class="fa fa-star fa-3x cast" data-value="2"></span>
+                <span class="fa fa-star fa-3x cast" data-value="3"></span>
+                <span class="fa fa-star fa-3x cast" data-value="4"></span>
+                <span class="fa fa-star fa-3x cast" data-value="5"></span>
+            </form>
+            </div>
+        </div>
+
+        <div class="submit-ratings">
+            <button id="submit-rating-btn" class="btn btn-primary mt-3" disabled>Submit Ratings</button>
         </div>
     </div>
 
-<h3>Set Rating</h3>
-<div class="rate-rows">
-    <div class="stars">
-    <form class="rate-form" action="" method="POST" id="set-form" data-playid="{{ play.playID }}">
-        {% csrf_token %}
-        <span class="fa fa-star fa-3x set" data-value="1"></span>
-        <span class="fa fa-star fa-3x set" data-value="2"></span>
-        <span class="fa fa-star fa-3x set" data-value="3"></span>
-        <span class="fa fa-star fa-3x set" data-value="4"></span>
-        <span class="fa fa-star fa-3x set" data-value="5"></span>
-    </form>
+    <div id="comment-section-container" style="display: none;">
+        <h3>Leave a Comment</h3>
+        <div class="comment-box">
+            <form method="post" action="{% url 'plays:submit_comment' %}" id="comment-form">
+                {% csrf_token %}
+                <textarea id="comment-input" name="comment" rows="4" placeholder="Write your thoughts..." required></textarea>
+                <input type="hidden" name="play_id" value="{{ play.playID }}">
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Submit Comment</button>
+        </form>
+        
+    {% else %}
+    <p class="rate-message"> Please <a href="{% url 'plays:login' %}">log in</a> to rate this show.</p>
+    {% endif %}
+
+    <h3 class="comment-header">Comments</h3>
+    <div class="comment-list">
+        {% for comment in play.review_set.all %}
+            <div class="comment">
+                <strong>{{ comment.username.username }}</strong>:
+                <p>{{ comment.comment }}</p>
+            </div>
+        {% empty %}
+            <p>No comments yet. Be the first!</p>
+        {% endfor %}
+    </div>
     </div>
 </div>
 
-<h3>Cast Rating</h3>
-<div class="rate-rows">
-    <div class="stars">
-    <form class="rate-form" action="" method="POST" id="cast-form" data-playid="{{ play.playID }}">
-        {% csrf_token %}
-        <span class="fa fa-star fa-3x cast" data-value="1"></span>
-        <span class="fa fa-star fa-3x cast" data-value="2"></span>
-        <span class="fa fa-star fa-3x cast" data-value="3"></span>
-        <span class="fa fa-star fa-3x cast" data-value="4"></span>
-        <span class="fa fa-star fa-3x cast" data-value="5"></span>
-    </form>
-    </div>
-</div>
-
-<div class="submit-ratings">
-    <button id="submit-rating-btn" class="btn btn-primary mt-3" disabled>Submit Ratings</button>
-</div>
-</div>
-
-<h3>Leave a Comment</h3>
-
-<div class="comment-section-container">
-    <div class="comment-box">
-        <form method="post" action="{% url 'plays:submit_comment' %}" id="comment-form">
-            {% csrf_token %}
-            <textarea id="comment-input" name="comment" rows="4" placeholder="Write your thoughts..." required></textarea>
-            <input type="hidden" name="play_id" value="{{ play.playID }}">
-        </div>
-        <button type="submit" class="btn btn-primary mt-2">Submit Comment</button>
-    </form>
-    
-{% else %}
-<p style="text-align:center;"> Please <a href="{% url 'plays:login' %}">log in</a> to rate this show.</p>
-{% endif %}
-
-<h3>Comments</h3>
-<div class="comment-list">
-    {% for comment in play.review_set.all %}
-        <div class="comment">
-            <strong>{{ comment.username.username }}</strong>:
-            <p>{{ comment.comment }}</p>
-        </div>
-    {% empty %}
-        <p>No comments yet. Be the first!</p>
-    {% endfor %}
-</div>
-</div>
-
+<script src="{% static 'javascript/comment-rating-toggler.js' %}"></script>
 <script src="{% static 'javascript/chosenplays.js' %}"></script>
 
 <!--This code works, but for some reason the red arrows are appearing ??-->

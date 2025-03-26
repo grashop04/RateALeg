@@ -35,9 +35,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 .then(data => {
                     if (data.success) {
                         alert("Bio updated successfully!");
+                        window.location.href = window.location.href;
                     } else {
                         alert("Error updating bio.");
                     }
+                })
+                .catch(error => {
+                    console.error("Error during fetch:", error);
+                    alert("An error occurred while updating bio.");
                 });
             }
         });
@@ -62,13 +67,18 @@ document.addEventListener("DOMContentLoaded", function () {
                     },
                     body: formData
                 })
-                .then(response => response.json())
+                // .then(response => response.json())
                 .then(data => {
                     if (data.success) {
                         alert("Profile picture updated successfully!");
+                        window.location.href = window.location.href; 
                     } else {
                         alert("Error updating profile picture.");
                     }
+                })
+                .catch(error => {
+                    console.error("Error during fetch:", error);
+                    alert("An error occurred while updating profile picture.");
                 });
             }
         });

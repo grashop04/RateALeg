@@ -1,7 +1,6 @@
 import traceback
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -12,7 +11,7 @@ from django.urls import reverse
 from .forms import SignUpForm
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Avg
-
+import json
 
 def shows(request):
     category_name = request.GET.get('category')
@@ -40,6 +39,7 @@ def shows(request):
     except Play.DoesNotExist:
         featured_play = None
     categories = Category.objects.all()
+    print("Number of plays retrieved:", plays.count())
     return render(request, 'plays/shows.html', {'plays': plays, 'categories': categories, 'sort_by': sort_by, 'featured_play': featured_play,})
 
 def show_detail(request, show_id):
@@ -141,23 +141,26 @@ def profile(request):
     user = request.user
 
     if request.method == "POST":
+
         if request.content_type == "application/json":
             data = json.loads(request.body)
             user.bio = data.get("bio", user.bio)
             user.save()
-            return JsonResponse({"success": True})
+            return redirect('profile')
 
-        elif request.FILES.get("profile_pic"): 
-            user.profilePicture = request.FILES["profile_pic"]
+
+        elif request.FILES.get("profile_pic"):
+            user.profile_pic = request.FILES["profile_pic"]
             user.save()
-            return JsonResponse({"success": True})
+            return redirect('profile')
 
-        return JsonResponse({"success": False})
-    
-    profile_picture_url = user.profilePicture.url if user.profilePicture else static("images/default-profile-pic.jpg")
+        return redirect('profile')
+
+    profile_picture_url = (
+        user.profile_pic.url if user.profile_pic else static("images/default-profile-pic.jpg")
+    )
+
     return render(request, "plays/profile.html", {"user": user, "profile_picture_url": profile_picture_url})
-
-
 
 @login_required
 def user_logout(request):
