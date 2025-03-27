@@ -5,27 +5,56 @@
 
 {% block body_block %}
 <link rel="stylesheet" href="{% static 'css/profile.css' %}">
-<input type="hidden" id="csrf_token" value="{{ csrf_token }}">
-
 <div class="container mt-4">
-    <div class="profile-container">
-        <div class="profile-left">
-            <img src="{{ profile_picture_url }}" alt="Profile Picture" id="profile-pic">
-            <input type="file" id="profile-pic-upload" accept="image/*" style="display: none;">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="profile-container">
+            <div class="profile-left">
+                <img src="{{ profile_picture_url }}" alt="Profile Picture" id="profile-pic">
+                <input type="file" name="profile_pic" id="profile-pic-upload" accept="image/*" style="display: none;">
+            </div>
+            <div class="profile-right">
+                <h2>{{ user.username }}</h2>
+                <p id="bio">{{ user.bio }}</p>
+                <div id="container">
+                    <button type="button" id="edit-button">EDIT</button>
+                    <button type="submit" id="done-button" style="display: none;">DONE</button>
+                </div>  
+            </div>
         </div>
-        <div class="profile-right">
-            <h2>{{ user.username }}</h2>
-            <p id="bio">{{ user.bio }}</p>
-            <input type="hidden" id="csrf_token" value="{{ csrf_token }}">
-            <div id="container">
-                <button type="submit" id="edit-button">EDIT</button>
-                <button id="done-button" style="display: none;">DONE</button>
-            </div>  
-            <script src="{% static 'javascript/edit.js' %}"></script>
-        </div>
-    </div>
-    <h3>Recently Reviewed Shows</h3>
-    <a href="{% url 'plays:logout' %}" id="logout-btn">Logout</a>
+        <h3>Recently Reviewed Shows</h3>
+        <a href="{% url 'plays:logout' %}" id="logout-btn">Logout</a>
+    </form>
+    <script src="{% static 'javascript/edit.js' %}"></script>
 </div>
 
-{% endblock %}
+{% if reviews %}
+<div class="reviews-grid">
+   {% for review in reviews %}
+       <div class="review-box">
+        <div class="play-info">
+         {% if review.playId.slug %}
+           <a href="{% url 'plays:chosen_show' play_slug=review.playId.slug %}">
+             <h4>{{ review.playId.title }}</h4>
+             <img src="{% static 'images/'|add:review.playId.slug|add:'.jpg' %}" alt="{{ review.playId.title }}" width="150" height="200">
+           </a>
+         {% else %}
+           <h4>{{ review.playId.title }}</h4>
+           <p>No image available</p>
+         {% endif %}
+       </div>
+       <div class="ratings">
+         <p><strong>Cast Rating:</strong> {{ review.CastRating }}</p>
+         <p><strong>Set Rating:</strong> {{ review.SetRating }}</p>
+         <p><strong>Soundtrack Rating:</strong> {{ review.SoundTrackRating }}</p>
+         <p><strong>Comment:</strong> {{ review.comment }}</p>
+       </div>
+     </div>
+   {% endfor %}
+    </div>
+ {% else %}
+   <p>You haven't reviewed any plays yet.</p>
+ {% endif %}
+ 
+ {% endblock %}
+

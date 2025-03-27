@@ -15,8 +15,9 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
-STATIC_DIR = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [STATIC_DIR, ]
+STATICFILES_DIRS = [BASE_DIR, "static",]
+
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -28,7 +29,7 @@ SECRET_KEY = 'v(yk5&%+cs#dm!bam9ay_2bj+88xjdn*thw*$#gz)kd242z(jd'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['grashop004.pythonanywhere.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -41,8 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'plays',
-    'django.contrib.sites',
-
     # 'auth_app',
 
     # 'allauth',
@@ -136,6 +135,9 @@ LOGIN_URL = 'plays:login'
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 # AUTHENTICATION_BACKENDS = [
 #     'django.contrib.auth.backends.ModelBackend',

@@ -10,7 +10,7 @@ class CustomUser(AbstractUser):
     firstName = models.CharField(max_length=25)
     secondName = models.CharField(max_length=25)
     bio = models.CharField(max_length=250, blank=True)
-    profilePicture = models.ImageField(upload_to='profile_images/', default='default-profile-pic.jpg')
+    profile_pic = models.ImageField(upload_to='profile_images/', blank=True, null=True)
 
     def __str__(self):
         return self.username
@@ -32,15 +32,29 @@ class Category(models.Model):
 
 
 class Play(models.Model):
+    LOCATION_CHOICES = [
+        ("King's Theatre", "King's Theatre"),
+        ("Theatre Royal", "Theatre Royal"),
+        ("Pavilion Theatre", "Pavilion Theatre"),
+        ("Glasgow Royal Concert Hall", "Glasgow Royal Concert Hall"),
+        ("SEC Armadillo", "SEC Armadillo"),
+        ("Tron Theatre", "Tron Theatre"),
+        ("Citizens Theatre", "Citizens Theatre"),
+    ]
+    
+    
     playID = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100)
     WriterFirstName = models.CharField(max_length=25)
     WriterSecondName = models.CharField(max_length=25)
     genre = models.CharField(max_length=25)
-    releaseDate = models.DateField()
+    releaseDate = models.DateField(null=True, blank=True)
     description = models.TextField(max_length=1000)
     playImage = models.ImageField(upload_to='images/')
+    location = models.CharField(max_length=100, choices=LOCATION_CHOICES, default="King's Theatre")
+    date_play= models.DateField(null=True, blank=True)
     slug = models.SlugField(unique=True, blank=True)
+
 
     def save(self, *args, **kwargs):
         if not self.slug:   
@@ -52,6 +66,17 @@ class Play(models.Model):
 
 
 class Review(models.Model):
+    
+    LOCATION_CHOICES = [
+        ("King's Theatre", "King's Theatre"),
+        ("Theatre Royal", "Theatre Royal"),
+        ("Pavilion Theatre", "Pavilion Theatre"),
+        ("Glasgow Royal Concert Hall", "Glasgow Royal Concert Hall"),
+        ("SEC Armadillo", "SEC Armadillo"),
+        ("Tron Theatre", "Tron Theatre"),
+        ("Citizens Theatre", "Citizens Theatre"),
+    ]
+    
     reviewID = models.AutoField(primary_key=True)
     playId = models.ForeignKey(Play, on_delete=models.CASCADE)  
     username = models.ForeignKey(CustomUser, on_delete=models.CASCADE) 
@@ -61,9 +86,18 @@ class Review(models.Model):
     AverageRating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     comment = models.TextField(max_length=1000)
     playPicture = models.ImageField(upload_to='images/')
+    
+    def save(self, *args, **kwargs):
+        total_ratings = sum(filter(None, [self.SoundTrackRating, self.CastRating, self.SetRating]))
+        count = sum(1 for x in [self.SoundTrackRating, self.CastRating, self.SetRating] if x > 0)
+        self.AverageRating = total_ratings / count if count else 0  # Avoid division by zero
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Review by {self.username.username}"
+    
+    class Meta:
+        unique_together = ('playId', 'username')
 
 
 class Feedback(models.Model):
