@@ -72,18 +72,8 @@
 }
 
 .chosen-show-wrapper {
-    position: fixed; /* Keeps it outside the main layout */
-    left: 50px;
-    top: 120px;
-    width: 200px;
-    float: left;
-    z-index: 10; /* Ensures it stays above other elements */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
 }
-
-@media (max-width: 1700px){
-    .chosen-show-wrapper {
-        display: none; 
-    }
-}
-
-

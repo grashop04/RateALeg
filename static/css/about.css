@@ -23,9 +23,13 @@ h3 {
     font-weight: bold;
 }
 
-.kings-img {
+.theatre-img {
     display: block;
     margin: auto;
     width: 100%;
     height: auto;
+}
+
+.about-header {
+    color: black !important;
 }

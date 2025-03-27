@@ -27,6 +27,7 @@ class Category(models.Model):
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
+
     def __str__(self):
         return self.name
 
@@ -41,6 +42,20 @@ class Play(models.Model):
         ("Tron Theatre", "Tron Theatre"),
         ("Citizens Theatre", "Citizens Theatre"),
     ]
+
+    SPOTIFY_CHOICES = [
+        ("lion_king", "The Lion King Soundtrack"),
+        ("annie", "Annie Soundtrack"),
+        ("phantom_of_the_opera", "Phantom of the Opera Soundtrack"),
+        ("sound_of_music", "Sound of Music Soundtrack"),
+        ("book_of_mormon", "Book of Mormon Soundtrack"),
+        ("hamilton", "Hamilton Soundtrack"),
+        ("wicked", "Wicked Soundtrack"),
+        ("les_miserables", "Les Miserables Soundtrack"),
+        ("mamma_mia", "Mamma Mia Soundtrack"),
+        ("dear_evan_hansen", "Dear Evan Hansen Soundtrack"),
+        ]
+
     
     
     playID = models.AutoField(primary_key=True)
@@ -53,8 +68,8 @@ class Play(models.Model):
     playImage = models.ImageField(upload_to='images/')
     location = models.CharField(max_length=100, choices=LOCATION_CHOICES, default="King's Theatre")
     date_play= models.DateField(null=True, blank=True)
+    spotifyCode = models.CharField(max_length=50, choices=SPOTIFY_CHOICES, default="annie")
     slug = models.SlugField(unique=True, blank=True)
-
 
     def save(self, *args, **kwargs):
         if not self.slug:   
