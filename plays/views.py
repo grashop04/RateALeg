@@ -24,6 +24,7 @@ def shows(request):
 
     plays = Play.objects.all().annotate(avg_rating=Avg('review__AverageRating'))
     
+    #sorts according to user choice of sort by
     if sort_by == 'rating':
         plays = plays.order_by('-avg_rating')
     elif sort_by == 'playwright':
@@ -49,11 +50,6 @@ def shows(request):
 def top_rated(request):
     top_plays = Play.objects.annotate(avg_rating=Avg("review__AverageRating")).order_by("-avg_rating")[:5]
     return render(request, "plays/top_rated.html", {"top_plays": top_plays})
-
-def show_detail(request, show_id):
-    play = get_object_or_404(Play, id=show_id)
-    reviews = play.reviews.all()
-    return render(request, 'plays/show_detail.html', {'play': play, 'reviews': reviews})
 
 def make_a_review_discuss_event(request, play_slug):
     play = get_object_or_404(Play, slug=play_slug)
@@ -84,9 +80,6 @@ def make_a_review_discuss_event(request, play_slug):
 def about(request):
     return render(request, 'plays/about.html')
 
-def soundtrack(request):
-    return render(request, 'plays/soundtrack.html')
-
 @login_required
 def feedback(request):
     if request.method == "POST":
@@ -102,10 +95,13 @@ def feedback(request):
 
 def maps(request):
     context_dict = {}
+    #assigns the external links to the keys
     context_dict['kingstheatre'] = 'http://kingstheatreglasgow.net/'
     context_dict['theatreroyal'] = 'http://theatreroyalglasgow.net/'
     context_dict['paviliontheatre'] = 'https://trafalgartickets.com/pavilion-theatre-glasgow/en-GB'
+    #loads the API key from settings.py
     context_dict['apiKey'] = settings.API_KEY
+    #uses f string to load in the key securely
     context_dict['googleapi'] = f"https://www.google.com/maps/embed/v1/search?key={context_dict['apiKey']}&q=theatres+Glasgow+City"
     
     return render(request, 'plays/maps.html', context_dict)
@@ -201,6 +197,16 @@ def chosen_show(request, play_slug):
                 "set": user_review.SetRating or 0,
                 "cast": user_review.CastRating or 0,
             }
+
+    # For some reason the context dictionary wasn't working so this for loop works
+    if not play.spotifyCode: # if it is none
+        spotify_choices = dict(Play.SPOTIFY_CHOICES)  
+        
+        for code, title in spotify_choices.items():
+            if title.lower() in play.title.lower():
+                play.spotifyCode = code # set code to the code in the dictionary
+                play.save()
+                break # play found
         
     avg_rating = Review.objects.filter(playId=play).aggregate(Avg('AverageRating'))['AverageRating__avg'] or 0
     avg_rating = round(avg_rating, 1)
@@ -209,13 +215,15 @@ def chosen_show(request, play_slug):
         'play': play,
         'user_review': user_review,
         'avg_rating':avg_rating,
-        'user_ratings':user_ratings
+        'user_ratings':user_ratings,
     }
+
+    print(play.spotifyCode)
     return render(request, 'plays/chosen_show.html', context)
 
 
 def submit_rating(request):
-     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
+    if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
          play_id = request.POST.get('el_id')  
          rating_value = request.POST.get('val') 
          category = request.POST.get('category')  
@@ -251,7 +259,7 @@ def submit_rating(request):
             review.SetRating = rating_value
          elif category == 'cast':
             review.CastRating = rating_value
-         #this is calculating the averaeg rating 
+         #this is calculating the average rating 
          
          total_ratings = sum(filter(None, [review.SoundTrackRating, review.CastRating, review.SetRating]))
          count = sum(1 for x in [review.SoundTrackRating, review.CastRating, review.SetRating] if x > 0)
@@ -261,7 +269,7 @@ def submit_rating(request):
  
          return JsonResponse({'message': 'Rating submitted successfully!', 'score': rating_value})
  
-     return JsonResponse({'error': 'Invalid request'}, status=400)
+    return JsonResponse({'error': 'Invalid request'}, status=400)
 
 
 
@@ -280,7 +288,9 @@ def submit_comment(request):
     else:
         messages.error(request, "You must rate the play before leaving a comment.")
 
-    return render(request, "plays/profile.html", {"form": form, "user": user})
+    return render(request, 'plays/chosen_show.html', {'play' : play, 'request':request})
+
+
 
 def search(request):
     query = request.GET.get("q", "")

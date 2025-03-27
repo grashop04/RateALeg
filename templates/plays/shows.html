@@ -35,25 +35,8 @@
   {% endif %}
 </div>
 
-<div class="chosen-show-wrapper">
-  <div class="featured-show">
-      <h2>Our Choice</h2>
-      {% if featured_play %}
-        <p>Featured Play: {{ featured_play.title }}</p>
-        {% if featured_play.slug %}
-          <a href="{% url 'plays:chosen_show' play_slug=featured_play.slug %}">
-              <img src="{% static 'images/'|add:featured_play.slug|add:'.jpg' %}" 
-                   alt="{{ featured_play.title }}" 
-                   width="150" height="200"/>
-          </a>
-        {% else %}
-          <p>Featured show unavailable.</p>
-        {% endif %}
-      {% else %}
-      <p>No featured show available.</p>
-      {% endif %}
-  </div>
-</div>
+
+
 <h3 class="shows-header">Top Rated Shows</h3>
 <div class="plays-container">
   {% for play in top_rated_plays %}
@@ -86,6 +69,24 @@
   </div>
 </div>
 
-
+<div class="chosen-show-wrapper">
+  <div class="featured-show">
+      <h2>Our Choice</h2>
+      {% if featured_play %}
+        <p>Featured Play: {{ featured_play.title }}</p>
+        {% if featured_play.slug %}
+          <a href="{% url 'plays:chosen_show' play_slug=featured_play.slug %}">
+              <img src="{% static 'images/'|add:featured_play.slug|add:'.jpg' %}" 
+                   alt="{{ featured_play.title }}" 
+                   width="150" height="200"/>
+          </a>
+        {% else %}
+          <p>Featured show unavailable.</p>
+        {% endif %}
+      {% else %}
+      <p>No featured show available.</p>
+      {% endif %}
+  </div>
+</div>
 
 {% endblock %}

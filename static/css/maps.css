@@ -12,8 +12,8 @@
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     margin: 10px;
-    height: 600px;
-    width: 500px;
+    height: 400px;
+    width: 300px;
 }
 
 .map-container iframe {
@@ -30,9 +30,16 @@
     text-align: center;
 }
 
-.theatre-list a {
+/* .theatre-list a {
     font-size: 25px;
     text-decoration: none;
     color: inherit;
+} */
+
+@media (max-width: 768px) {
+    .theatre-list {
+        width: 100%; 
+        height: auto; 
+    }
 }
 

@@ -72,10 +72,4 @@ Visit the 'http://127.0.0.1:8000/' in your web browswer to access the applicatio
 ## Licensing
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Conda Activate Plays - The virtual environment used 
-(  the app is called plays )
-- Django 2.2.28
-- Python 3.11.11
 
-To secure key
-- pip install python-dotenv
