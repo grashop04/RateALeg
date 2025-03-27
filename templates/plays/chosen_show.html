@@ -142,16 +142,81 @@
     </div>
 </div>
 
-<div class="spotify-code">
-    {% if play.spotify_code %}
-        {{ play.spotify_code|safe }}
+<div class="spotify-embed">
+    {% if play.spotifyCode == "lion_king" %}
+        <iframe style="border-radius:12px" 
+            src="https://open.spotify.com/embed/album/3YA5DdB3wSz4pdfEXoMyRd?utm_source=generator" 
+            width="100%" height="352" frameBorder="0" allowfullscreen 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+            loading="lazy">
+        </iframe>
+    {% elif play.spotifyCode == "annie" %}
+        <iframe style="border-radius:12px" 
+            src="https://open.spotify.com/embed/album/6SHWGGZJPmwfOLInPMEUFW?utm_source=generator" 
+            width="100%" height="352" frameBorder="0" allowfullscreen 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+            loading="lazy">
+        </iframe>
+    {% elif play.spotifyCode == "phantom_of_the_opera" %}
+        <iframe style="border-radius:12px" 
+            src="https://open.spotify.com/embed/album/1zwEN9cLtWg39zFJnj8brt?utm_source=generator" 
+            width="100%" height="352" frameBorder="0" allowfullscreen="" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+            loading="lazy">
+        </iframe>
+    {% elif play.spotifyCode == "sound_of_music" %}
+        <iframe style="border-radius:12px" 
+            src="https://open.spotify.com/embed/album/1KN5Lr40H56umfa1yzmO5R?utm_source=generator" 
+            width="100%" height="352" frameBorder="0" allowfullscreen="" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+            loading="lazy">
+        </iframe>
+    {% elif play.spotifyCode == "book_of_mormon" %}
+        <iframe style="border-radius:12px" 
+            src="https://open.spotify.com/embed/album/5yauUuXppqUj2ulor38hvI?utm_source=generator" 
+            width="100%" height="352" frameBorder="0" allowfullscreen="" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+            loading="lazy">
+        </iframe>
+    {% elif play.spotifyCode == "hamilton" %}
+        <iframe style="border-radius:12px" 
+            src="https://open.spotify.com/embed/album/1kCHru7uhxBUdzkm4gzRQc?utm_source=generator" 
+            width="100%" height="352" frameBorder="0" allowfullscreen="" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+            loading="lazy">
+        </iframe>
+    {% elif play.spotifyCode == "wicked" %}
+        <iframe style="border-radius:12px" 
+            src="https://open.spotify.com/embed/album/3JUrJP460nFIqwjxM19slT?utm_source=generator" 
+            width="100%" height="352" frameBorder="0" allowfullscreen="" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+            loading="lazy">
+        </iframe>
+    {% elif play.spotifyCode == "les_miserables" %}
+        <iframe style="border-radius:12px" 
+            src="https://open.spotify.com/embed/album/20exLke5P8o4D1Bj4iRcPf?utm_source=generator" 
+            width="100%" height="352" frameBorder="0" allowfullscreen="" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+            loading="lazy">
+        </iframe>
+    {% elif play.spotifyCode == "mamma_mia" %}
+        <iframe style="border-radius:12px" 
+            src="https://open.spotify.com/embed/album/6QtnCAFmqOwR75jOOmU7k9?utm_source=generator" 
+            width="100%" height="352" frameBorder="0" allowfullscreen="" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+            loading="lazy">
+        </iframe>
+    {% elif play.spotifyCode == "dear_evan_hansen" %}
+        <iframe style="border-radius:12px" 
+            src="https://open.spotify.com/embed/album/0LhDyJXelg31FKLW5GDcKi?utm_source=generator" 
+            width="100%" height="352" frameBorder="0" allowfullscreen="" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+            loading="lazy">
+        </iframe>
     {% else %}
-        <p>Sorry, no Spotify code available for this show.</p>
+        <p>Spotify code not found.</p>
     {% endif %}
 </div>
-
-<p>Spotify code: {{ play.spotify_code|safe }}</p>
-
 
 <script src="{% static 'javascript/comment-rating-toggler.js' %}"></script>
 <script src="{% static 'javascript/chosenplays.js' %}"></script>
@@ -160,8 +225,5 @@
 <script>
     const savedRatings = {{ user_ratings|safe }};
 </script>
-
-
-    
 
 {% endblock %}
