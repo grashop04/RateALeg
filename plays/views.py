@@ -131,6 +131,11 @@ def user_login(request):
     else:
         return render(request, 'plays/login.html')
 
+
+def logout_view(request):
+    logout(request)
+    return redirect('plays:login')
+
 def user_signup(request):
     registered = False
 
