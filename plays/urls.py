@@ -12,6 +12,7 @@ urlpatterns = [
     path('feedback/', views.feedback, name='feedback'),
     path('maps/', views.maps, name='maps'),
     path('login/', views.user_login, name='login'),
+    path("logout/", views.logout_view),
     path('signup/', views.user_signup, name='signup'),
     path('profile/', views.profile, name='profile'),
     path('<slug:play_slug>/chosen_show/', views.chosen_show, name='chosen_show'),
