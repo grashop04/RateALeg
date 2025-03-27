@@ -3,3 +3,8 @@ pillow==11.1.0
 pytz==2025.1
 sqlparse==0.5.3
 pip install python-dotenv
+pip install django-allauth
+pip install google-auth
+pip install requests
+pip install pyjwt
+pip install cryptography
