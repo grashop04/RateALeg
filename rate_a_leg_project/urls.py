@@ -25,6 +25,7 @@ urlpatterns = [
     path('plays/', include('plays.urls')),
     path('admin/', admin.site.urls),
     path('about/', views.about, name='about'),
+    path("search/", views.search, name="search"),
     path('maps/', views.maps, name='maps'),
     path('login/', views.user_login, name='login'),
     path('signup/', views.user_signup, name='signup'),
@@ -34,4 +35,5 @@ urlpatterns = [
     path('logout/', views.user_logout, name="logout"),
     path('submit-rating/', views.submit_rating, name='submit-rating'),
     path('submit-comment/', views.submit_comment, name='submit_comment'),
+    path("accounts/", include("allauth.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

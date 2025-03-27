@@ -33,7 +33,7 @@
         <h1>{{ play.title }}</h1>
         <p>{{ play.description }}</p>
         <div class="info-box">
-            <p><strong>Date Showing:</strong> {{ play.date_play }}</p>
+            <p><strong>Date Showing:</strong> {{ play.releaseDate|date:"j F Y" }}</p>
             <p><strong>Location:</strong> 
                 <a href="{% url 'maps' %}?location={{ play.location }}" class="location-link">
                     {{ play.location }}
