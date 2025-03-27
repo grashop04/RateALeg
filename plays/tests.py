@@ -22,7 +22,6 @@ from django.forms import fields as django_fields
 #test the show page
 class ShowsViewTest(TestCase):
     def setUp(self):
-        # Set up some categories and plays
         self.category = Category.objects.create(name="Comedy")
         self.play1 = Play.objects.create(
             title="Play 1", genre=self.category, releaseDate="2022-01-01"
@@ -34,6 +33,7 @@ class ShowsViewTest(TestCase):
             title="Play 3", genre=self.category,  releaseDate="2021-01-01"
         )
 
+    #tests to see if the plays show up on the home page
     def test_shows_view(self):
         response = self.client.get(reverse('plays:shows'))
         self.assertEqual(response.status_code, 200)
@@ -47,12 +47,8 @@ class ShowsViewTest(TestCase):
 
 
 
-
-
-#Testing views
-
 #about view
-
+#tests simple cases - it loads, contains the correct content
 class TestAboutPage(SimpleTestCase):
     def test_about_page_status_code(self):
         response = self.client.get('/about/')
@@ -67,9 +63,10 @@ class TestAboutPage(SimpleTestCase):
         self.assertContains(response, 'About Rate A Leg') 
 
 ##Testing maps view
+##tests the API works
 class TestMapsPage(SimpleTestCase):
     def test_maps_page_status_code(self):
-        # Test that the maps page returns status code 200
+        # Test that the maps page loads everything correctly
         response = self.client.get(reverse('plays:maps'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'plays/maps.html')
@@ -83,23 +80,24 @@ class TestMapsPage(SimpleTestCase):
 
 
 #login
-
 class UserLoginTests(TestCase):
     def setUp(self):
         self.user = CustomUser.objects.create_user(username='usertest', password='userpassword', email='usertest@example.com', 
                                              first_name='john', last_name='doe')
         
-
+    #tests a valid user login
     def test_valid_login(self):
         response = self.client.post((reverse('login')), {'username': 'usertest', 'password':'userpassword'})
         self.assertRedirects(response, reverse('shows'))
         self.assertEqual(response.status_code, 302)
 
+    #tests a mismatched password trying to login
     def test_invalid_password(self):
         response = self.client.post('/login/', {'username' : 'usertest', 'password':'wrongpassword'})
         self.assertContains(response, 'Invalid login details supplied.')
         self.assertEqual(response.status_code, 200)
 
+    #tests a mismatched username trying to login
     def test_invalid_username(self):
         response = self.client.post('/login/', {'username' : 'wronguser', 'password':'userpassword'})
         self.assertContains(response, 'Invalid login details supplied.')
@@ -113,7 +111,7 @@ class UserSignUpTest(TestCase):
         self.user = CustomUser.objects.create_user(username='usertest', password='userpassword', email='usertest@example.com', 
                                              first_name='john', last_name='doe')
         
-
+    ##tests a valid signup
     def test_valid_signup(self):
         response = self.client.post(reverse('plays:signup'), {
             'username' : 'johnny',
@@ -126,6 +124,7 @@ class UserSignUpTest(TestCase):
         self.assertTrue(CustomUser.objects.filter(username='johnny').exists())
         self.assertRedirects(response, reverse('shows'))
 
+    #tries to sign up with an invalid email address
     def test_invalid_signup_email(self):
         response = self.client.post(reverse('plays:signup'), {
             'username' : 'johnny',
@@ -137,6 +136,7 @@ class UserSignUpTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFormError(response, 'form', 'email', 'Enter a valid email address.')
 
+    #tries to signup without inputting any data
     def test_invalid_signup_blank_fields(self):
         response = self.client.post(reverse('plays:signup'), {
             'username' : '',
@@ -163,27 +163,46 @@ class UserSignUpTest(TestCase):
 
 
 #logout
+class LogOutTests(TestCase):
+     def setUp(self):
+        self.user = CustomUser.objects.create_user(username='usertest', password='userpassword', email='usertest@example.com', 
+                                             first_name='john', last_name='doe')
+        self.url = reverse('plays:shows')
+
+
+def test_logout(self):
+        self.client.login(username='usertest', password='userpassword')
+        response = self.client.get(self.logout_url)
+        self.assertRedirects(response, self.url)
+
 
 #profile
-#logout
-#profile pic
-#bio
+class ProfileTests(TestCase):
+    def setUp(self):
+        self.user = CustomUser.objects.create_user(username='usertest', password='userpassword', email='usertest@example.com', 
+                                             first_name='john', last_name='doe')
+        self.url = reverse('profile')
 
-# class ProfileTests(TestCase):
-#     def setUp(self):
-#         self.user = CustomUser.objects.create_user(username='usertest', password='userpassword', email='usertest@example.com', 
-#                                              first_name='john', last_name='doe')
-#         self.url = reverse('plays:profile')
-        
-#     def test_update_bio(self):
-#         self.client.login(username="testuser", password="password")
-#         response = self.client.post(self.url, json.dumps({"bio": "Updated bio"}), content_type="application/json")
-#         self.user.refresh_from_db()
-#         self.assertEqual(self.user.bio, "Updated bio")
-#         self.assertRedirects(response, self.url)
+    #tests if a logged in user can update their bio    
+    def test_update_bio(self):
+        self.client.login(username="usertest", password="userpassword")
+        response = self.client.post(self.url, json.dumps({"bio": "Updated bio"}), content_type="application/json")
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.bio, "Updated bio")
+        self.assertRedirects(response, self.url)
 
 
-#more signup
+    #tests if a logged in user can upload a profile picture
+    def test_upload_profile_pic(self):
+        self.client.login(username="usertest", password="userpassword")
+
+        with open("cat-pic.jpg", "rb") as img:
+            response = self.client.post(self.url, {"profile_pic": img})
+
+        self.user.refresh_from_db()
+        self.assertTrue(self.user.profile_pic)
+        self.assertRedirects(response, self.url)
+
 
 
     

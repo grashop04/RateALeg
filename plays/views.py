@@ -76,18 +76,18 @@ def make_a_review_discuss_event(request, play_slug):
 def about(request):
     return render(request, 'plays/about.html')
 
-def soundtrack(request):
-    return render(request, 'plays/soundtrack.html')
-
 def feedback(request):
     return render(request, 'plays/feedback.html')
 
 def maps(request):
     context_dict = {}
+    #assigns the external links to the keys
     context_dict['kingstheatre'] = 'http://kingstheatreglasgow.net/'
     context_dict['theatreroyal'] = 'http://theatreroyalglasgow.net/'
     context_dict['paviliontheatre'] = 'https://trafalgartickets.com/pavilion-theatre-glasgow/en-GB'
+    #loads the API key from settings.py
     context_dict['apiKey'] = settings.API_KEY
+    #uses f string to load in the key securely
     context_dict['googleapi'] = f"https://www.google.com/maps/embed/v1/search?key={context_dict['apiKey']}&q=theatres+Glasgow+City"
     
     return render(request, 'plays/maps.html', context_dict)
@@ -109,10 +109,6 @@ def user_login(request):
             return HttpResponse("Invalid login details supplied.")
     else:
         return render(request, 'plays/login.html')
-
-def logout_view(request):
-    logout(request)
-    return redirect('plays:login')
 
 def user_signup(request):
     registered = False
