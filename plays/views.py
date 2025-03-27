@@ -202,7 +202,7 @@ def chosen_show(request, play_slug):
 
 
 def submit_rating(request):
-     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
+    if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
          play_id = request.POST.get('el_id')  
          rating_value = request.POST.get('val') 
          category = request.POST.get('category')  
@@ -248,7 +248,7 @@ def submit_rating(request):
  
          return JsonResponse({'message': 'Rating submitted successfully!', 'score': rating_value})
  
-     return JsonResponse({'error': 'Invalid request'}, status=400)
+    return JsonResponse({'error': 'Invalid request'}, status=400)
 
 
 @login_required

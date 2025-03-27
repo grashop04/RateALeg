@@ -24,7 +24,6 @@
             </div>
         </div>
         <h3>Recently Reviewed Shows</h3>
-        <a href="{% url 'plays:logout' %}" id="logout-btn">Logout</a>
     </form>
     <script src="{% static 'javascript/edit.js' %}"></script>
 </div>
@@ -56,6 +55,10 @@
  {% else %}
    <p>You haven't reviewed any plays yet.</p>
  {% endif %}
- 
- {% endblock %}
+
+<div class="logout-container">
+  <a href="{% url 'plays:logout' %}" id="logout-button">Logout</a>
+</div>
+
+{% endblock %}
 

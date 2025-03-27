@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/feedback.css' %}">
 
 <div class="container mt-4">
-    <h1>Have a Suggestion? Contact Us</h1>
+    <h1 class="feedback-header">Have a Suggestion? Contact Us</h1>
     <form action="{% url 'feedback' %}" method="post">
         {% csrf_token %}
         <!-- form fields go here -->

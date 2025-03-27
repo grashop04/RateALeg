@@ -24,13 +24,31 @@
     padding: 10px;
 }
 
-#logout-btn {
-    display: block;
-    width: 150px;
-    margin: 20px auto;
-    padding: 10px;
-    background-color: #16675F;
+#logout-button {
     color: white;
+    padding: 5px;
+    margin: 0 3px;
+    background-color: #16675F;
+    outline: none;
+    box-shadow: 2px 2px 2px #3f3f3f;
+    padding: 10px 100px;
+    text-align: center;
+    display: inline-block;
+    border: .5px solid black;
+}
+
+.logout-container {
+    display: flex;
+    justify-content: center;
+}
+
+#logout-button:hover {
+    box-shadow: 2px 2px 3px ;
+    background-color: #1d554f;
+}
+
+#logout-button:active {
+    box-shadow: 1px 1px 3px ;
 }
 
 h3 {
@@ -38,10 +56,6 @@ h3 {
     padding: 7px;
     margin-top: 20px;
     border: 0.3px solid black
-}
-
-body {
-    background-color: #ffe44d;
 }
 
 #container {
@@ -85,31 +99,31 @@ button:active {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* 3 per row max */
     gap: 20px;
     padding: 20px 0;
-  }
+}
   
-  .review-box {
+.review-box {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 10px;
     padding: 15px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     transition: transform 0.2s;
-  }
-  
-  .review-box:hover {
+}
+
+.review-box:hover {
     transform: scale(1.02);
-  }
-  
-  .review-box img {
+}
+
+.review-box img {
     border-radius: 5px;
     margin-top: 10px;
-  }
-  
-  .ratings p {
+}
+
+.ratings p {
     margin: 5px 0;
-  }
-  
-  .play-info {
+}
+
+.play-info {
     text-align: center;
     margin-bottom: 10px;
-  }
+}
