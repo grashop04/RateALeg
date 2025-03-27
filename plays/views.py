@@ -33,6 +33,8 @@ def shows(request):
     else:
         plays = plays.order_by('title')
 
+    top_rated_plays = plays.order_by('-avg_rating')[:6]
+
     try:
         featured_play = Play.objects.get(title="Annie, The Musical")
         if not featured_play.slug:
@@ -42,7 +44,11 @@ def shows(request):
         featured_play = None
     categories = Category.objects.all()
     print("Number of plays retrieved:", plays.count())
-    return render(request, 'plays/shows.html', {'plays': plays, 'categories': categories, 'sort_by': sort_by, 'featured_play': featured_play,})
+    return render(request, 'plays/shows.html', {'plays': plays, 'categories': categories, 'sort_by': sort_by, 'featured_play': featured_play, 'top_rated_plays': top_rated_plays})
+
+def top_rated(request):
+    top_plays = Play.objects.annotate(avg_rating=Avg("review__AverageRating")).order_by("-avg_rating")[:5]
+    return render(request, "plays/top_rated.html", {"top_plays": top_plays})
 
 def show_detail(request, show_id):
     play = get_object_or_404(Play, id=show_id)
