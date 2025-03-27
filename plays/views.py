@@ -53,7 +53,8 @@ def top_rated(request):
 def show_detail(request, show_id):
     play = get_object_or_404(Play, id=show_id)
     reviews = play.reviews.all()
-    return render(request, 'plays/show_detail.html', {'play': play, 'reviews': reviews})
+    print(play.spotify_code)  # Check terminal output
+    return render(request, 'plays/show_detail.html', {'play': play, 'reviews': reviews, 'spotify_code': play.spotify_code})
 
 def make_a_review_discuss_event(request, play_slug):
     play = get_object_or_404(Play, slug=play_slug)
@@ -214,13 +215,15 @@ def chosen_show(request, play_slug):
         'play': play,
         'user_review': user_review,
         'avg_rating':avg_rating,
-        'user_ratings':user_ratings
+        'user_ratings':user_ratings,
     }
+
+    print(play.spotifyCode)
     return render(request, 'plays/chosen_show.html', context)
 
 
 def submit_rating(request):
-     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
+    if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
          play_id = request.POST.get('el_id')  
          rating_value = request.POST.get('val') 
          category = request.POST.get('category')  
@@ -266,7 +269,7 @@ def submit_rating(request):
  
          return JsonResponse({'message': 'Rating submitted successfully!', 'score': rating_value})
  
-     return JsonResponse({'error': 'Invalid request'}, status=400)
+    return JsonResponse({'error': 'Invalid request'}, status=400)
 
 
 
