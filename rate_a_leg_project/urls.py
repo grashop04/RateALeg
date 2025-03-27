@@ -25,6 +25,7 @@ urlpatterns = [
     path('plays/', include('plays.urls')),
     path('admin/', admin.site.urls),
     path('about/', views.about, name='about'),
+    path("search/", views.search, name="search"),
     path('maps/', views.maps, name='maps'),
     path('login/', views.user_login, name='login'),
     path('signup/', views.user_signup, name='signup'),

@@ -3,7 +3,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.template.defaultfilters import slugify
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
-
+import uuid
 
 ## May need to chnge this database a bit, unsure if password and such is actually required ?!
 class CustomUser(AbstractUser):
@@ -101,7 +101,7 @@ class Review(models.Model):
 
 
 class Feedback(models.Model):
-    feedbackID = models.UUIDField(primary_key=True)
+    feedbackID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     username = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_feedback')
     comment = models.TextField(max_length=1000)
 
