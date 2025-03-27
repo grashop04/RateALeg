@@ -1,3 +1,4 @@
+import json
 from django.test import TestCase, SimpleTestCase
 from plays.models import CustomUser, Play, Category, Review
 
@@ -164,6 +165,23 @@ class UserSignUpTest(TestCase):
 #logout
 
 #profile
+#logout
+#profile pic
+#bio
+
+# class ProfileTests(TestCase):
+#     def setUp(self):
+#         self.user = CustomUser.objects.create_user(username='usertest', password='userpassword', email='usertest@example.com', 
+#                                              first_name='john', last_name='doe')
+#         self.url = reverse('plays:profile')
+        
+#     def test_update_bio(self):
+#         self.client.login(username="testuser", password="password")
+#         response = self.client.post(self.url, json.dumps({"bio": "Updated bio"}), content_type="application/json")
+#         self.user.refresh_from_db()
+#         self.assertEqual(self.user.bio, "Updated bio")
+#         self.assertRedirects(response, self.url)
+
 
 #more signup
 

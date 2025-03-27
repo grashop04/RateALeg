@@ -48,7 +48,7 @@ class Play(models.Model):
     WriterFirstName = models.CharField(max_length=25)
     WriterSecondName = models.CharField(max_length=25)
     genre = models.CharField(max_length=25)
-    releaseDate = models.DateField()
+    releaseDate = models.DateField(null=True, blank=True)
     description = models.TextField(max_length=1000)
     playImage = models.ImageField(upload_to='images/')
     location = models.CharField(max_length=100, choices=LOCATION_CHOICES, default="King's Theatre")
