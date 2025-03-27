@@ -5,10 +5,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.templatetags.static import static
-from .models import Play, Review, CustomUser, Category
-from .forms import ReviewForm, ProfileForm
+from .models import Play, Review, CustomUser, Category, Feedback
+from .forms import ReviewForm, ProfileForm, SignUpForm
 from django.urls import reverse
-from .forms import SignUpForm
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Avg
 import json
@@ -21,15 +21,19 @@ def shows(request):
         plays = Play.objects.filter(genre=category_name)
     else:
         plays = Play.objects.all()
+
+    plays = Play.objects.all().annotate(avg_rating=Avg('review__AverageRating'))
     
     if sort_by == 'rating':
-        plays = plays.order_by('-rating')
+        plays = plays.order_by('-avg_rating')
     elif sort_by == 'playwright':
         plays = plays.order_by('WriterFirstName', 'WriterSecondName')
     elif sort_by == 'newest':
         plays = plays.order_by('-releaseDate')
     else:
         plays = plays.order_by('title')
+
+    top_rated_plays = plays.order_by('-avg_rating')[:6]
 
     try:
         featured_play = Play.objects.get(title="Annie, The Musical")
@@ -40,7 +44,11 @@ def shows(request):
         featured_play = None
     categories = Category.objects.all()
     print("Number of plays retrieved:", plays.count())
-    return render(request, 'plays/shows.html', {'plays': plays, 'categories': categories, 'sort_by': sort_by, 'featured_play': featured_play,})
+    return render(request, 'plays/shows.html', {'plays': plays, 'categories': categories, 'sort_by': sort_by, 'featured_play': featured_play, 'top_rated_plays': top_rated_plays})
+
+def top_rated(request):
+    top_plays = Play.objects.annotate(avg_rating=Avg("review__AverageRating")).order_by("-avg_rating")[:5]
+    return render(request, "plays/top_rated.html", {"top_plays": top_plays})
 
 def show_detail(request, show_id):
     play = get_object_or_404(Play, id=show_id)
@@ -79,7 +87,17 @@ def about(request):
 def soundtrack(request):
     return render(request, 'plays/soundtrack.html')
 
+@login_required
 def feedback(request):
+    if request.method == "POST":
+        feedback_text = request.POST.get("feedback")
+        if feedback_text:
+            Feedback.objects.create(
+                username=request.user,
+                comment=feedback_text
+            )
+            messages.success(request, "Feedback submitted successfully! Thank you for your support")
+            return redirect('plays:feedback')
     return render(request, 'plays/feedback.html')
 
 def maps(request):
@@ -87,7 +105,8 @@ def maps(request):
     context_dict['kingstheatre'] = 'http://kingstheatreglasgow.net/'
     context_dict['theatreroyal'] = 'http://theatreroyalglasgow.net/'
     context_dict['paviliontheatre'] = 'https://trafalgartickets.com/pavilion-theatre-glasgow/en-GB'
-
+    context_dict['apiKey'] = settings.API_KEY
+    context_dict['googleapi'] = f"https://www.google.com/maps/embed/v1/search?key={context_dict['apiKey']}&q=theatres+Glasgow+City"
     
     return render(request, 'plays/maps.html', context_dict)
 
@@ -250,6 +269,7 @@ def submit_rating(request):
      return JsonResponse({'error': 'Invalid request'}, status=400)
 
 
+
 @login_required
 def submit_comment(request):
     comment_text = request.POST.get('comment')
@@ -265,4 +285,12 @@ def submit_comment(request):
     else:
         messages.error(request, "You must rate the play before leaving a comment.")
 
-    return redirect('plays:chosen_show', play_slug=play.slug)
+    return render(request, "plays/profile.html", {"form": form, "user": user})
+
+def search(request):
+    query = request.GET.get("q", "")
+    if query:
+        results = Play.objects.filter(title__icontains=query)
+    else:
+        results = Play.objects.none()
+    return render(request, "plays/search_results.html", {"results": results, "query": query})

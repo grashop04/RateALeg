@@ -10,12 +10,13 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
 <div class="centre-login">
     <div class="container mt-4">
-        <h1>Register for Rate A Leg</h1>
+        
         {% if registered %}
             <strong>Thank you for registering!</strong>
             <a href="{% url 'shows' %}">Return to the homepage.</a>
         {% else %}
             <div class="login">
+                <h1>Register for Rate A Leg</h1>
                 <form id="user_form" method="post" action="{% url 'signup' %}" enctype="multipart/form-data">
                     {% csrf_token %}
                     
