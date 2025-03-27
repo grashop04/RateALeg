@@ -262,7 +262,7 @@ def submit_rating(request):
             review.SetRating = rating_value
          elif category == 'cast':
             review.CastRating = rating_value
-         #this is calculating the averaeg rating 
+         #this is calculating the average rating 
          
          total_ratings = sum(filter(None, [review.SoundTrackRating, review.CastRating, review.SetRating]))
          count = sum(1 for x in [review.SoundTrackRating, review.CastRating, review.SetRating] if x > 0)
@@ -291,7 +291,9 @@ def submit_comment(request):
     else:
         messages.error(request, "You must rate the play before leaving a comment.")
 
-    return render(request, "plays/profile.html", {"form": form, "user": user})
+    return render(request, 'plays/chosen_show.html', {'play' : play, 'request':request})
+
+
 
 def search(request):
     query = request.GET.get("q", "")

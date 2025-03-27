@@ -186,13 +186,6 @@ class FeedbackTests(TestCase):
         self.assertRedirects(response, f'{self.loginurl}?next={self.url}')
 
 
-#submit comment
-
-#submit rating
-
-#chosen show
-
-
 #logout
 class LogOutTests(TestCase):
      def setUp(self):
@@ -238,6 +231,12 @@ class ProfileTests(TestCase):
         self.assertTrue(self.user.profile_pic)
         # Check that the response redirects
         self.assertRedirects(response, self.url)
+
+
+
+
+        
+
 
 
 
