@@ -24,6 +24,7 @@ def shows(request):
 
     plays = Play.objects.all().annotate(avg_rating=Avg('review__AverageRating'))
     
+    #sorts according to user choice of sort by
     if sort_by == 'rating':
         plays = plays.order_by('-avg_rating')
     elif sort_by == 'playwright':
@@ -94,10 +95,13 @@ def feedback(request):
 
 def maps(request):
     context_dict = {}
+    #assigns the external links to the keys
     context_dict['kingstheatre'] = 'http://kingstheatreglasgow.net/'
     context_dict['theatreroyal'] = 'http://theatreroyalglasgow.net/'
     context_dict['paviliontheatre'] = 'https://trafalgartickets.com/pavilion-theatre-glasgow/en-GB'
+    #loads the API key from settings.py
     context_dict['apiKey'] = settings.API_KEY
+    #uses f string to load in the key securely
     context_dict['googleapi'] = f"https://www.google.com/maps/embed/v1/search?key={context_dict['apiKey']}&q=theatres+Glasgow+City"
     
     return render(request, 'plays/maps.html', context_dict)
@@ -119,6 +123,7 @@ def user_login(request):
             return HttpResponse("Invalid login details supplied.")
     else:
         return render(request, 'plays/login.html')
+
 
 def logout_view(request):
     logout(request)
@@ -260,7 +265,7 @@ def submit_rating(request):
             review.SetRating = rating_value
          elif category == 'cast':
             review.CastRating = rating_value
-         #this is calculating the averaeg rating 
+         #this is calculating the average rating 
          
          total_ratings = sum(filter(None, [review.SoundTrackRating, review.CastRating, review.SetRating]))
          count = sum(1 for x in [review.SoundTrackRating, review.CastRating, review.SetRating] if x > 0)
@@ -289,7 +294,9 @@ def submit_comment(request):
     else:
         messages.error(request, "You must rate the play before leaving a comment.")
 
-    return render(request, "plays/profile.html", {"form": form, "user": user})
+    return render(request, 'plays/chosen_show.html', {'play' : play, 'request':request})
+
+
 
 def search(request):
     query = request.GET.get("q", "")

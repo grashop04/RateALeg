@@ -30,7 +30,7 @@ STATICFILES_DIRS = [BASE_DIR, "static",]
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 API_KEY = os.environ.get('API_KEY')
-#'v(yk5&%+cs#dm!bam9ay_2bj+88xjdn*thw*$#gz)kd242z(jd'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
