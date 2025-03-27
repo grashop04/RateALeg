@@ -98,7 +98,6 @@ def user_login(request):
         password = request.POST.get('password')
 
         user = authenticate(username=username, password=password)
-        
         if user:
             if user.is_active:
                 login(request, user)
@@ -160,8 +159,13 @@ def profile(request):
     profile_picture_url = (
         user.profile_pic.url if user.profile_pic else static("images/default-profile-pic.jpg")
     )
+    reviews = Review.objects.filter(username=user).select_related('playId').order_by('-reviewID')
 
-    return render(request, "plays/profile.html", {"user": user, "profile_picture_url": profile_picture_url})
+    return render(request, "plays/profile.html", {
+         "user": user,
+         "profile_picture_url": profile_picture_url,
+         "reviews": reviews,
+     })
 
 @login_required
 def user_logout(request):

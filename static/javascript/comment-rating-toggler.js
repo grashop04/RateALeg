@@ -30,5 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Set default active button
-    activateButton(toggleRatingsBtn, toggleCommentsBtn);
+    activateButton(toggleCommentsBtn, toggleRatingsBtn);
+    ratingsSection.style.display = "none";
+    commentsSection.style.display = "block";
 });
