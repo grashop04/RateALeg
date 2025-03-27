@@ -142,6 +142,7 @@
     </div>
 </div>
 
+<!--This code checks the spotify choices-->
 <div class="spotify-embed">
     {% if play.spotifyCode == "lion_king" %}
         <iframe style="border-radius:12px" 
@@ -215,6 +216,7 @@
         </iframe>
     {% else %}
         <p>Spotify code not found.</p>
+        {{ play.spotifyCode }}
     {% endif %}
 </div>
 
