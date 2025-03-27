@@ -24,6 +24,7 @@ def shows(request):
 
     plays = Play.objects.all().annotate(avg_rating=Avg('review__AverageRating'))
     
+    #sorts according to user choice of sort by
     if sort_by == 'rating':
         plays = plays.order_by('-avg_rating')
     elif sort_by == 'playwright':

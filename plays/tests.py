@@ -1,6 +1,6 @@
 import json
 from django.test import TestCase, SimpleTestCase
-from plays.models import CustomUser, Play, Category, Review
+from plays.models import CustomUser, Feedback, Play, Category, Review
 
 import os
 import re
@@ -15,6 +15,7 @@ from django.conf import settings
 from django.urls import reverse, resolve
 from django.contrib.auth.models import User
 from django.forms import fields as django_fields
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 # Create your tests here.
 
@@ -41,9 +42,15 @@ class ShowsViewTest(TestCase):
         self.assertContains(response, "Play 2")
         self.assertContains(response, "Play 3")
 
+   
+
+    def test_shows_alphabetical(self):
+        response = self.client.get(reverse('plays:shows') + '?sort=title')
+        self.assertEqual(response.status_code, 200)
+        plays_titles = [play.title for play in response.context['plays']]  
+        self.assertEqual(plays_titles, ['Play 1', 'Play 2', 'Play 3'])
 
 
-##test the different search functions too
 
 
 
@@ -154,6 +161,30 @@ class UserSignUpTest(TestCase):
 
 
 #feedback form
+class FeedbackTests(TestCase):
+    def setUp(self):
+        self.user = CustomUser.objects.create_user(username='usertest', password='userpassword', email='usertest@example.com', 
+                                             first_name='john', last_name='doe')
+        
+        self.url = reverse('plays:feedback')
+        
+    #a logged in user successfully submits feedback
+    def test_submit_valid_feedback(self):
+        self.client.login(username='usertest', password='userpassword')
+        feedback_data = {'feedback': 'This is a valid feedback'}
+        response = self.client.post(reverse('plays:feedback'), data=feedback_data)
+        self.assertEqual(Feedback.objects.count(), 1)
+        feedback = Feedback.objects.first()
+        self.assertEqual(feedback.comment, 'This is a valid feedback')
+        self.assertEqual(feedback.username, self.user)
+        self.assertEqual(response.status_code, 302)
+
+    #a user who is not logged in tries to click on feedback nav bar but is redirected to the login page
+    def test_not_logged_in_redirect(self):
+        response = self.client.get(reverse('plays:feedback'))
+        self.loginurl = reverse('plays:login')
+        self.assertRedirects(response, f'{self.loginurl}?next={self.url}')
+
 
 #submit comment
 
@@ -196,11 +227,16 @@ class ProfileTests(TestCase):
     def test_upload_profile_pic(self):
         self.client.login(username="usertest", password="userpassword")
 
-        with open("cat-pic.jpg", "rb") as img:
-            response = self.client.post(self.url, {"profile_pic": img})
+        with open('test_image.jpg', 'wb') as f:
+            f.write(b'Fake image content')  # Write some dummy content to the image file
+        image = SimpleUploadedFile('profile_pic.jpg', open('test_image.jpg', 'rb').read(), content_type='image/jpeg')
 
+        # Send a POST request with the image file
+        response = self.client.post(reverse('profile'), {'profile_pic': image})
+        # Refresh user from DB and check if profile picture is set
         self.user.refresh_from_db()
         self.assertTrue(self.user.profile_pic)
+        # Check that the response redirects
         self.assertRedirects(response, self.url)
 
 
