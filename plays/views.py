@@ -6,9 +6,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.templatetags.static import static
 from .models import Play, Review, CustomUser, Category
-from .forms import ReviewForm, ProfileForm
+from .forms import ReviewForm, ProfileForm, SignUpForm
 from django.urls import reverse
-from .forms import SignUpForm
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Avg
 import json
@@ -87,7 +87,8 @@ def maps(request):
     context_dict['kingstheatre'] = 'http://kingstheatreglasgow.net/'
     context_dict['theatreroyal'] = 'http://theatreroyalglasgow.net/'
     context_dict['paviliontheatre'] = 'https://trafalgartickets.com/pavilion-theatre-glasgow/en-GB'
-
+    context_dict['apiKey'] = settings.API_KEY
+    context_dict['googleapi'] = f"https://www.google.com/maps/embed/v1/search?key={context_dict['apiKey']}&q=theatres+Glasgow+City"
     
     return render(request, 'plays/maps.html', context_dict)
 
@@ -248,6 +249,7 @@ def submit_rating(request):
          return JsonResponse({'message': 'Rating submitted successfully!', 'score': rating_value})
  
      return JsonResponse({'error': 'Invalid request'}, status=400)
+
 
 
 @login_required
