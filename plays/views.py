@@ -51,12 +51,6 @@ def top_rated(request):
     top_plays = Play.objects.annotate(avg_rating=Avg("review__AverageRating")).order_by("-avg_rating")[:5]
     return render(request, "plays/top_rated.html", {"top_plays": top_plays})
 
-def show_detail(request, show_id):
-    play = get_object_or_404(Play, id=show_id)
-    reviews = play.reviews.all()
-    print(play.spotify_code)  # Check terminal output
-    return render(request, 'plays/show_detail.html', {'play': play, 'reviews': reviews, 'spotify_code': play.spotify_code})
-
 def make_a_review_discuss_event(request, play_slug):
     play = get_object_or_404(Play, slug=play_slug)
 
@@ -85,7 +79,6 @@ def make_a_review_discuss_event(request, play_slug):
 
 def about(request):
     return render(request, 'plays/about.html')
-
 
 @login_required
 def feedback(request):
@@ -210,6 +203,16 @@ def chosen_show(request, play_slug):
                 "set": user_review.SetRating or 0,
                 "cast": user_review.CastRating or 0,
             }
+
+    # For some reason the context dictionary wasn't working so this for loop works
+    if not play.spotifyCode: # if it is none
+        spotify_choices = dict(Play.SPOTIFY_CHOICES)  
+        
+        for code, title in spotify_choices.items():
+            if title.lower() in play.title.lower():
+                play.spotifyCode = code # set code to the code in the dictionary
+                play.save()
+                break # play found
         
     avg_rating = Review.objects.filter(playId=play).aggregate(Avg('AverageRating'))['AverageRating__avg'] or 0
     avg_rating = round(avg_rating, 1)

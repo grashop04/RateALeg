@@ -7,17 +7,21 @@
 <link rel="stylesheet" href="{% static 'css/profile.css' %}">
 <div class="container mt-4">
     <form method="POST" enctype="multipart/form-data">
+      <!-- csrf token -->
         {% csrf_token %}
         <div class="profile-container">
             <div class="profile-left">
+              <!-- Displays profile pic, default-profile-pic.jmp if none -->
                 <img src="{{ profile_picture_url }}" alt="Profile Picture" id="profile-pic">
                 <input type="file" name="profile_pic" id="profile-pic-upload" accept="image/*" style="display: none;">
             </div>
             <div class="profile-right">
                 <h2>{{ user.username }}</h2>
                 <p id="bio">{{ user.bio }}</p>
+              <!-- csrf token -->
                 <input type="hidden" id="csrf_token" value="{{ csrf_token }}">
                 <div id="container">
+                  <!-- edit button is visible, done button visible when edit clicked -->
                     <button type="button" id="edit-button">EDIT</button>
                     <button type="submit" id="done-button" style="display: none;">DONE</button>
                 </div>  
