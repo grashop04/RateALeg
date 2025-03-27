@@ -13,12 +13,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 from dotenv import load_dotenv
 import os
 
-CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
-CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
-
-if not CLIENT_ID or not CLIENT_SECRET:
-    raise ValueError("❌ Missing Google OAuth credentials!")
-
 load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -61,6 +55,13 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google'
 ]
+
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
+
+if 'allauth.socialaccount' in INSTALLED_APPS:
+    if not GOOGLE_CLIENT_ID or not GOOGLE_CLIENT_SECRET:
+        raise ValueError("❌ Missing Google OAuth credentials!")
 
 # settings.py
 SOCIALACCOUNT_PROVIDERS = {
