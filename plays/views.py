@@ -128,10 +128,6 @@ def user_login(request):
     else:
         return render(request, 'plays/login.html')
 
-def logout_view(request):
-    logout(request)
-    return redirect('plays:login')
-
 def user_signup(request):
     registered = False
 
@@ -189,7 +185,6 @@ def profile(request):
 def user_logout(request):
     logout(request)
     return redirect(reverse('shows'))
-
 
 def chosen_show(request, play_slug):
     play = get_object_or_404(Play, slug=play_slug)
