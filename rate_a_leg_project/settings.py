@@ -10,10 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
+
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
+load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -35,14 +37,14 @@ API_KEY = os.environ.get('API_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['grashop004.pythonanywhere.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'RossS.pythonanywhere.com']
 
 
 # Application definition
 
 SITE_ID = 1
 SOCIALACCOUNT_LOGIN_ON_GET = True
-ACCOUNT_LOGOUT_ON_GET = True       
+ACCOUNT_LOGOUT_ON_GET = True
 
 INSTALLED_APPS = [
     'django.contrib.admin',

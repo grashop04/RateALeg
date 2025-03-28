@@ -1,5 +1,25 @@
-Django==2.2.28
+Django==5.1.7
 pillow==11.1.0
 pytz==2025.1
 sqlparse==0.5.3
-pip install python-dotenv
+python-dotenv==1.1.0
+asgiref==3.8.1
+cachetools==5.5.2
+certifi==2025.1.31
+cffi==1.17.1
+charset-normalizer==3.4.1
+cryptography==44.0.2
+django-allauth==65.6.0
+google-auth==2.38.0
+idna==3.10
+pillow==11.1.0
+pyasn1==0.6.1
+pyasn1_modules==0.4.1
+pycparser==2.22
+PyJWT==2.10.1
+python-dotenv==1.1.0
+pytz==2025.1
+requests==2.32.3
+rsa==4.9
+sqlparse==0.5.3
+urllib3==2.3.0

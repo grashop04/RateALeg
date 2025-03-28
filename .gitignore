@@ -176,4 +176,4 @@ cython_debug/
 __pycache__/
 
 # Ignore database
-db.sqlite3
+db.sqlite3staticfiles/

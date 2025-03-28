@@ -1,7 +1,13 @@
-from django import forms 
+from django import forms
 from django.contrib.auth.models import User
 from .models import CustomUser, Play, Review, Category
 
+# User Registration Form
+# ---------------------
+# Extends Django's ModelForm to handle user signups with:
+# - Required name fields
+# - Email validation
+# - Password masking
 class SignUpForm(forms.ModelForm):
     first_name = forms.CharField(max_length=25, required=True, help_text='Required. Enter your first name.')
     last_name = forms.CharField(max_length=25, required=True, help_text='Required. Enter your surname.')
@@ -12,6 +18,11 @@ class SignUpForm(forms.ModelForm):
         model = CustomUser
         fields = ('first_name', 'last_name', 'email', 'username', 'password')
 
+# Play Review Form
+# ---------------
+# Handles user submissions of play reviews with:
+# - Rating fields (1-5 scale)
+# - Text comment area
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
@@ -23,6 +34,11 @@ class ReviewForm(forms.ModelForm):
             'comment':forms.Textarea(attrs={'rows':4}),
         }
 
+# User Profile Editing Form
+# ------------------------
+# Allows users to update their profile information with:
+# - Profile picture upload
+# - Bio/description field
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = CustomUser

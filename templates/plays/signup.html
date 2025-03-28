@@ -8,66 +8,162 @@
 
 {% block body_block %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
-<div class="centre-login">
-    <div class="container mt-4">
-        
-        {% if registered %}
-            <strong>Thank you for registering!</strong>
-            <a href="{% url 'shows' %}">Return to the homepage.</a>
-        {% else %}
-            <div class="login">
-                <h1>Register for Rate A Leg</h1>
-                <form id="user_form" method="post" action="{% url 'signup' %}" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    
-                    {% if form.errors %}
-                        <div class="alert alert-danger">
-                            {% for field, errors in form.errors.items %}
-                                {% for error in errors %}
-                                    {{ error }}
-                                {% endfor %}
-                            {% endfor %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+
+            {% if registered %}
+                <div class="alert alert-success text-center">
+                    <strong>Thank you for registering!</strong>
+                    <a href="{% url 'shows' %}" class="btn btn-primary ml-2">Return to homepage</a>
+                </div>
+            {% else %}
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+                        <h1 class="text-center mb-4">Register for Rate A Leg</h1>
+
+                        <!-- Regular Form Registration -->
+                        <form id="user_form" method="post" action="{% url 'signup' %}" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            {% if form.errors %}
+                                <div class="alert alert-danger">
+                                    {% for field, errors in form.errors.items %}
+                                        {% for error in errors %}
+                                            {{ error }}<br>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            <div class="form-group mb-3">
+                                <label for="id_first_name">First Name</label>
+                                <input type="text" class="form-control" id="id_first_name" name="first_name" required>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="id_last_name">Last Name</label>
+                                <input type="text" class="form-control" id="id_last_name" name="last_name" required>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="id_email">Email</label>
+                                <input type="email" class="form-control" id="id_email" name="email" required>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="id_username">Username</label>
+                                <input type="text" class="form-control" id="id_username" name="username" required>
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label for="id_password">Password</label>
+                                <input type="password" class="form-control" id="id_password" name="password" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 mb-3">
+                                Register
+                            </button>
+                        </form>
+
+                        <!-- Divider -->
+                        <div class="d-flex align-items-center mb-3">
+                            <hr class="flex-grow-1">
+                            <span class="px-2 text-muted">OR</span>
+                            <hr class="flex-grow-1">
                         </div>
-                    {% endif %}
 
-                    <label for="id_first_name">First Name</label>
-                    <input type="text" id="id_first_name" name="first_name" required>
+                        <!-- Google Login Button -->
+                        <div class="text-center mb-3">
+                            <a href="{% provider_login_url 'google' %}?next=/" class="google-login-btn">
+                                <div class="gsi-material-button">
+                                    <div class="gsi-material-button-state"></div>
+                                    <div class="gsi-material-button-content-wrapper">
+                                        <div class="gsi-material-button-icon">
+                                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" style="display: block;">
+                                                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+                                                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+                                                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+                                                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+                                            </svg>
+                                        </div>
+                                        <span class="gsi-material-button-contents">Sign up with Google</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
 
-                    <label for="id_last_name">Last Name</label>
-                    <input type="text" id="id_last_name" name="last_name" required>
-
-                    <label for="id_email">Email</label>
-                    <input type="email" id="id_email" name="email" required>
-
-                    <label for="id_username">Username</label>
-                    <input type="text" id="id_username" name="username" required>
-
-                    <label for="id_password">Password</label>
-                    <input type="password" id="id_password" name="password" required>
-
-                    <button type="submit">
-                        Register
-                    </button>
-                </form>
-            </div>
-        {% endif %}
+                        <div class="text-center">
+                            <p class="mb-0">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
     </div>
 </div>
-<a href="{% provider_login_url 'google' %}?next=/" class="google-login-btn">
-    <button class="gsi-material-button">
-        <div class="gsi-material-button-state"></div>
-        <div class="gsi-material-button-content-wrapper">
-          <div class="gsi-material-button-icon">
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" xmlns:xlink="http://www.w3.org/1999/xlink" style="display: block;">
-              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
-              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
-              <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
-              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
-              <path fill="none" d="M0 0h48v48H0z"></path>
-            </svg>
-          </div>
-          <span class="gsi-material-button-contents">Sign in with Google</span>
-          <span style="display: none;">Sign in with Google</span>
-        </div>
-      </button>
+
+<! --the css would only work if placed at the bottom, for whatever reason would not work in external css page -->
+<style>
+    .google-login-btn {
+        text-decoration: none;
+        display: inline-block;
+
+    }
+
+    .gsi-material-button {
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        -webkit-appearance: none;
+        background-color: WHITE;
+        background-image: none;
+        border: 1px solid #747775;
+        border-radius: 4px;
+        box-sizing: border-box;
+        color: #1f1f1f;
+        cursor: pointer;
+        font-family: 'Roboto', arial, sans-serif;
+        font-size: 14px;
+        height: 40px;
+        letter-spacing: 0.25px;
+        outline: none;
+        overflow: hidden;
+        padding: 0 12px;
+        position: relative;
+        text-align: center;
+        transition: background-color .218s, border-color .218s, box-shadow .218s;
+        vertical-align: middle;
+        white-space: nowrap;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .gsi-material-button .gsi-material-button-icon {
+        height: 20px;
+        margin-right: 12px;
+        min-width: 20px;
+        width: 20px;
+    }
+
+    .gsi-material-button .gsi-material-button-content-wrapper {
+        -webkit-align-items: center;
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        height: 100%;
+        justify-content: center;
+        position: relative;
+        width: 100%;
+    }
+
+    .gsi-material-button:hover {
+        box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
+    }
+
+    .gsi-material-button:active {
+        background-color: #e8e8e8;
+    }
+</style>
 {% endblock %}

@@ -8,9 +8,10 @@ https://docs.djangoproject.com/en/2.2/howto/deployment/wsgi/
 """
 
 import os
-
+from dotenv import load_dotenv
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rate_a_leg_project.settings')
+load_dotenv('/home/RossS/RateALeg/.env')
 
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rate_a_leg_project.settings')
 application = get_wsgi_application()
