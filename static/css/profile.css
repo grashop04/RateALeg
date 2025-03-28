@@ -1,5 +1,6 @@
+/* configuring where profile is */
 .profile-container {
-      display: flex;
+    display: flex;
     align-items: center;
     gap: 20px;
     padding: 20px;
@@ -24,6 +25,8 @@
     padding: 10px;
 }
 
+
+/* logout button */
 #logout-button {
     color: white;
     padding: 5px;
@@ -51,6 +54,8 @@
     box-shadow: 1px 1px 3px ;
 }
 
+
+/* misc */
 h3 {
     background-color: white;
     padding: 7px;
@@ -64,6 +69,8 @@ h3 {
     padding: 10px;
 }
 
+
+/* edit and done buttons */
 #edit {
     padding: 5px;
     outline: none;
@@ -94,6 +101,8 @@ button:active {
     box-shadow: 1px 1px 3px ;
 }
 
+
+/* reviews */
 .reviews-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* 3 per row max */

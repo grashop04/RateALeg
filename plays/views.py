@@ -36,15 +36,15 @@ def shows(request):
 
     top_rated_plays = plays.order_by('-avg_rating')[:6]
 
+    # we choose a play out of the list to be the featured play
     try:
         featured_play = Play.objects.get(title="Annie, The Musical")
         if not featured_play.slug:
             featured_play.slug = "annie-the-musical"
-            featured_play.save()
+            featured_play.save() # save the slug
     except Play.DoesNotExist:
-        featured_play = None
+        featured_play = None # if no featured play/if the chosen one doesn't exist
     categories = Category.objects.all()
-    print("Number of plays retrieved:", plays.count())
     return render(request, 'plays/shows.html', {'plays': plays, 'categories': categories, 'sort_by': sort_by, 'featured_play': featured_play, 'top_rated_plays': top_rated_plays})
 
 def top_rated(request):
@@ -153,27 +153,29 @@ def user_signup(request):
 
 @login_required
 def profile(request):
-    user = request.user
+    user = request.user # get user
 
     if request.method == "POST":
 
         if request.content_type == "application/json":
-            data = json.loads(request.body)
-            user.bio = data.get("bio", user.bio)
-            user.save()
+            data = json.loads(request.body) 
+            user.bio = data.get("bio", user.bio) # get data
+            user.save() # save to database
             return redirect('profile')
 
 
         elif request.FILES.get("profile_pic"):
-            user.profile_pic = request.FILES["profile_pic"]
-            user.save()
+            user.profile_pic = request.FILES["profile_pic"] # get data
+            user.save() # save to database
             return redirect('profile')
 
         return redirect('profile')
 
+    # this makes sure if the user hasn't uploaded a profile picture, there is a default profile pic in place
     profile_picture_url = (
         user.profile_pic.url if user.profile_pic else static("images/default-profile-pic.jpg")
     )
+    
     reviews = Review.objects.filter(username=user).select_related('playId').order_by('-reviewID')
 
     return render(request, "plays/profile.html", {
@@ -205,6 +207,7 @@ def chosen_show(request, play_slug):
             }
 
     # For some reason the context dictionary wasn't working so this for loop works
+    # loops through all the plays and links the spotify code to the play
     if not play.spotifyCode: # if it is none
         spotify_choices = dict(Play.SPOTIFY_CHOICES)  
         

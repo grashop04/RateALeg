@@ -1,9 +1,11 @@
+/* submit button */
 .btn {
     background-color: white;
     text-align: center;
     margin-top: 20px; 
 }
 
+/* general */
 .container {
     background-color: #2d8078;
     padding: 20px;
@@ -16,6 +18,12 @@ h1 {
     text-align: center;
 }
 
+.feedback-header {
+    color: black;
+}
+
+
+/* forms */
 form {
     display: flex;
     flex-direction: column;
@@ -30,6 +38,3 @@ form {
     margin-top: 20px;
 }
 
-.feedback-header {
-    color: black;
-}

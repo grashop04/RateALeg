@@ -29,13 +29,10 @@
   </div>
 </div>
 
-<div class="welcome">
-  {% if user.is_authenticated %}
-    <h2>Welcome, {{ user.username }}</h2>
-  {% endif %}
-</div>
-
-
+<!-- Welcomes the user to the site if logged in -->
+{% if user.is_authenticated %}
+  <h3>Welcome to Rate a Leg, {{ user.username }}!</h3>
+{% endif %}
 
 <h3 class="shows-header">Top Rated Shows</h3>
 <div class="plays-container">

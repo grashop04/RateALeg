@@ -43,6 +43,7 @@ class Play(models.Model):
         ("Citizens Theatre", "Citizens Theatre"),
     ]
 
+    # All the spotify codes link to the official soundtracks of the musicals
     SPOTIFY_CHOICES = [
         ("lion_king", "The Lion King"),
         ("annie", "Annie, The Musical"),
@@ -50,7 +51,7 @@ class Play(models.Model):
         ("sound_of_music", "The Sound of Music"),
         ("book_of_mormon", "The Book of Mormon"),
         ("hamilton", "Hamilton"),
-        ("wicked", "Wicked Soundtrack"),
+        ("wicked", "Wicked"),
         ("les_miserables", "Les Misérables"),
         ("mamma_mia", "Mamma Mia!"),
         ("dear_evan_hansen", "Dear Evan Hansen"),
