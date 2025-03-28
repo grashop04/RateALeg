@@ -9,6 +9,7 @@
 
 <div class="container mt-4">
     <h1 class="about-header">About Rate A Leg</h1>
+    <!-- Welcomes the user to the site if logged in -->
     <p>{% if user.is_authenticated %}
         Welcome to Rate a Leg, {{ user.username }}!
     {% else %}
@@ -24,6 +25,7 @@
     <p>We want to join communities together, making everyone's opinion known and experiences heard. We want your help to maintain and build upon our website from your feedback.
          If you have any feedback, feel free to contact us <a href="{% url 'feedback' %}">here</a>. 
     </p>
+    <!-- Theatre image taken by Diana -->
     <img src="{% static 'images/theatre.jpg' %}" alt="Kings Theatre" width=500 height=250 class="theatre-img">
 </div>
 {% endblock %}
