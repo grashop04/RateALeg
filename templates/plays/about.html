@@ -9,7 +9,11 @@
 
 <div class="container mt-4">
     <h1 class="about-header">About Rate A Leg</h1>
-    <p>Welcome to Rate a Leg! We are a team of five developers with a passion for shows and theatre. We designed this website for like-minded people to easily navigate their 
+    <p>{% if user.is_authenticated %}
+        Welcome to Rate a Leg, {{ user.username }}!
+    {% else %}
+        Welcome to Rate a Leg!
+    {% endif %} We are a team of five developers with a passion for shows and theatre. We designed this website for like-minded people to easily navigate their 
         show/play needs! We love the theatre world and want to share it with anyone new to the scene (or old!).</p>
     <h3>What We Provide</h3>
     <p>This website allows you to search and sort for your local and favourite shows and even review and rate them if you are a registered user! Whether you're new to the 

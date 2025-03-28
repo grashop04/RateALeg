@@ -50,7 +50,7 @@ class Play(models.Model):
         ("sound_of_music", "The Sound of Music"),
         ("book_of_mormon", "The Book of Mormon"),
         ("hamilton", "Hamilton"),
-        ("wicked", "Wicked Soundtrack"),
+        ("wicked", "Wicked"),
         ("les_miserables", "Les Misérables"),
         ("mamma_mia", "Mamma Mia!"),
         ("dear_evan_hansen", "Dear Evan Hansen"),
