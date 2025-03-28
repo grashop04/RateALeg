@@ -29,14 +29,6 @@
   </div>
 </div>
 
-<div class="welcome">
-  {% if user.is_authenticated %}
-    <h2>Welcome, {{ user.username }}</h2>
-  {% endif %}
-</div>
-
-
-
 <h3 class="shows-header">Top Rated Shows</h3>
 <div class="plays-container">
   {% for play in top_rated_plays %}
